@@ -1,5 +1,5 @@
 package com.hk.mboard;
 
 public class ReviewBoard {
-	int t=123;
+	int t=12345666;
 }
