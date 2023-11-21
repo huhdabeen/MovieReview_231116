@@ -12,6 +12,10 @@
 		SELECT ID FROM MRMEMBER WHERE ID=#{id}
 	</select>
 	
+	<select id="nameChk" parameterType="String" resultType="String">
+		SELECT ID FROM MRMEMBER WHERE name=#{name}
+	</select>
+	
 	<select id="loginUser" parameterType="String" resultType="memberDto">
 		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE
 		FROM MRMEMBER
