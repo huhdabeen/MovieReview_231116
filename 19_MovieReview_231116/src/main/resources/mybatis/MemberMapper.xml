@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="nameChk" parameterType="String" resultType="String">
-		SELECT ID FROM MRMEMBER WHERE name=#{name}
+		SELECT NAME FROM MRMEMBER WHERE name=#{name}
 	</select>
 	
 	<select id="loginUser" parameterType="String" resultType="memberDto">
