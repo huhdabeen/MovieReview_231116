@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="loginUser" parameterType="String" resultType="memberDto">
-		SELECT MEMBERID, ID, NAME, PASSWORD, EMAIL, ROLE
+		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE
 		FROM MRMEMBER
 		WHERE ID=#{id}
 	</select>
