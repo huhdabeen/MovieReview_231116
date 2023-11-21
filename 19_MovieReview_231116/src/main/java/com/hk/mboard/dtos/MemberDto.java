@@ -11,7 +11,6 @@ public class MemberDto {
 	private String name; //닉네임
 	private String email; //이메일
 	private String role;
-	private String gg; 
 	
 	public MemberDto() {
 		super();
