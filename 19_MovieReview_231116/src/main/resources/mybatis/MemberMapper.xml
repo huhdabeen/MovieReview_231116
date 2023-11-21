@@ -3,6 +3,20 @@
 
 <mapper namespace="com.hk.mboard.mapper.MemberMapper">
 	
+	<insert id="addUser" parameterType="memberDto">
+		INSERT INTO MEMBER
+		VALUES(NULL,#{id},#{password},#{name},#{email},#{role})
+	</insert>
+	
+	<select id="idChk" parameterType="String" resultType="String">
+		SELECT ID FROM MEMBER WHERE ID=#{id}
+	</select>
+	
+	<select id="loginUser" parameterType="String" resultType="memberDto">
+		SELECT MEMBERID, ID, NAME, PASSWORD, EMAIL, ROLE
+		FROM MEMBER
+		WHERE ID=#{id}
+	</select>
 
 </mapper>
 
