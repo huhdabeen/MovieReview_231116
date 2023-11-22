@@ -33,13 +33,15 @@
       <tr>
          <th><input type="checkbox" name="all" 
                               onclick="allSel(this.checked)" /></th>
-         <th>작성자</th>
+         <th>장르</th>
+         <th>영화제목</th>
          <th>제목</th>
+         <th>닉네임</th>
          <th>작성일</th>
       </tr>
       <th:block th:if="${#lists.isEmpty(list)}">
          <tr>
-            <td colspan="4" style="text-align: center;" >---작성된 글이 없습니다.---</td>
+            <td colspan="6" style="text-align: center;" >---작성된 글이 없습니다.---</td>
          </tr>
       </th:block>
       <th:block th:unless="${#lists.isEmpty(list)}">
@@ -47,10 +49,12 @@
             <td><input type="checkbox" name="seq" th:field="*{seq}"
                                  th:value="${dto.board_seq}"/></td>
             <td th:text="${dto.id}"></td>
+            <td></td>
             <td>
                <a th:href="@{/board/boardDetail(board_seq=${dto.board_seq})}"
                   th:text="${dto.title}"></a>
             </td>
+            <td></td>
             <td th:text="${#dates.format(dto.regdate,'yyyy-MM-dd')}"></td>
          </tr>
          <tr>

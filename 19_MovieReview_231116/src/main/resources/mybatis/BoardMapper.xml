@@ -2,6 +2,38 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hk.mboard.mapper.BoardMapper">
+
+	<resultMap type="boardDto" id="boardDtoMap">
+		<id property="board_seq" 	column="BOARD_SEQ" />
+		<id property="name" 		column="NAME" />
+		<id property="title" 		column="TITLE" />
+		<id property="content" 		column="CONTENT" />
+		<id property="regdate" 		column="REGDATE" />
+		
+		<collection property="fileBoardDto" resultMap="fileBoardDtoMap"></collection>
+	</resultMap>
+	
+<!-- 	<resultMap type="fileBoardDto" id="fileBoardDtoMap"> -->
+<!-- 		<id property="file_seq" 			column="FILE_SEQ" /> -->
+<!-- 		<result property="board_seq" 		column="BOARD_SEQ"/> -->
+<!-- 		<result property="origin_filename" 	column="ORIGIN_FILENAME"/> -->
+<!-- 		<result property="stored_filename" 	column="STORED_FILENAME"/> -->
+<!-- 	</resultMap> -->
+
+	<select id="getAllList" resultType="boardDto">
+		SELECT BOARD_SEQ, GENRE_NM, MOVIE_NM, TITLE, CONTENT,NAME, REGDATE
+		FROM RVBOARD
+		WHERE DELFLAG='N'
+		ORDER BY REGDATE DESC
+	</select>
+	
+	<select id="getBoard" parameterType="Integer" resultMap="boardDtoMap">
+		SELECT R.BOARD_SEQ, M.GENRE_NM, M.MOVIE_NM, M.NLTY_NM, M.GRAD_NM, M.OPN, R.TITLE, R.CONTENT, R.NAME, R.REGDATE
+		FROM RVBOARD R LEFT OUTER JOIN MOVIEINFO5 M
+		ON R.MOVIE_NM = M.MOVIE_NM;
+	</select>
+	
+	
 	
 </mapper>
 
