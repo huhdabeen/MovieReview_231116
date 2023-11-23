@@ -2,22 +2,22 @@ package com.hk.mboard.dtos;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias(value = "fileBoardDto")
-public class FileBoardDto {
+@Alias(value = "fileDto")
+public class FileDto {
 	
 	private int file_seq;
-	private int board_seq;
+	private int memberId;
 	private String origin_filename;
 	private String stored_filename;
 	
-	public FileBoardDto() {
+	public FileDto() {
 		super();
 	}
 
-	public FileBoardDto(int file_seq, int board_seq, String origin_filename, String stored_filename) {
+	public FileDto(int file_seq, int memberId, String origin_filename, String stored_filename) {
 		super();
 		this.file_seq = file_seq;
-		this.board_seq = board_seq;
+		this.memberId = memberId;
 		this.origin_filename = origin_filename;
 		this.stored_filename = stored_filename;
 	}
@@ -30,12 +30,12 @@ public class FileBoardDto {
 		this.file_seq = file_seq;
 	}
 
-	public int getBoard_seq() {
-		return board_seq;
+	public int getMemberId() {
+		return memberId;
 	}
 
-	public void setBoard_seq(int board_seq) {
-		this.board_seq = board_seq;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getOrigin_filename() {
@@ -56,7 +56,7 @@ public class FileBoardDto {
 
 	@Override
 	public String toString() {
-		return "FileBoardDto [file_seq=" + file_seq + ", board_seq=" + board_seq + ", origin_filename="
+		return "FileBoardDto [file_seq=" + file_seq + ", memberId=" + memberId + ", origin_filename="
 				+ origin_filename + ", stored_filename=" + stored_filename + "]";
 	}
 

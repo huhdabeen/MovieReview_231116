@@ -1,6 +1,10 @@
 package com.hk.mboard.dtos;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
+
+import com.hk.mboard.dtos.FileDto;
 
 @Alias(value = "memberDto")
 public class MemberDto {
@@ -11,6 +15,9 @@ public class MemberDto {
 	private String name; //닉네임
 	private String email; //이메일
 	private String role;
+	
+	//Join용 멤버필드 
+	private List<FileDto> fileDto;
 	
 	public MemberDto() {
 		super();

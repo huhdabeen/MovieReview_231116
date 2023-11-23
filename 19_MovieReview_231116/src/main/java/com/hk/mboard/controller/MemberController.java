@@ -1,5 +1,6 @@
 package com.hk.mboard.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hk.mboard.dtos.FileDto;
+import com.hk.mboard.service.FileService;
 import com.hk.mboard.command.AddUserCommand;
 import com.hk.mboard.command.LoginCommand;
 import com.hk.mboard.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -25,6 +29,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private FileService fileService;
 
 	@GetMapping(value = "/addUser")
 	public String addUserForm(Model model) {
@@ -84,6 +90,17 @@ public class MemberController {
 		return map;
 	}
 	
+	@GetMapping(value = "/download")
+	public void download(int file_seq, HttpServletRequest request
+			                         , HttpServletResponse response) throws UnsupportedEncodingException {
+		
+		FileDto fdto=fileService.getFileInfo(file_seq);//파일정보가져오기
+		
+		fileService.fileDownload(fdto.getOrigin_filename()
+				                ,fdto.getStored_filename()
+				                ,request,response);
+	}
+	
 	//로그인 폼 이동
 	@GetMapping(value = "/login")
 	public String loginForm(Model model) {
@@ -114,7 +131,4 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//나의 정보 조회
-	
-	//나의 정보 수정
 }

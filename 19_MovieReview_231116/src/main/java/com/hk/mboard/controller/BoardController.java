@@ -19,7 +19,7 @@ import com.hk.mboard.command.DelBoardCommand;
 import com.hk.mboard.command.InsertBoardCommand;
 import com.hk.mboard.command.UpdateBoardCommand;
 import com.hk.mboard.dtos.BoardDto;
-import com.hk.mboard.dtos.FileBoardDto;
+import com.hk.mboard.dtos.FileDto;
 import com.hk.mboard.service.BoardService;
 import com.hk.mboard.service.FileService;
 
@@ -102,7 +102,7 @@ public class BoardController {
 	public void download(int file_seq, HttpServletRequest request
 			                         , HttpServletResponse response) throws UnsupportedEncodingException {
 		
-		FileBoardDto fdto=fileService.getFileInfo(file_seq);//파일정보가져오기
+		FileDto fdto=fileService.getFileInfo(file_seq);//파일정보가져오기
 		
 		fileService.fileDownload(fdto.getOrigin_filename()
 				                ,fdto.getStored_filename()

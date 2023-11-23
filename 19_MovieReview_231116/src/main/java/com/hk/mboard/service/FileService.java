@@ -16,7 +16,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
-import com.hk.mboard.dtos.FileBoardDto;
+import com.hk.mboard.dtos.FileDto;
 import com.hk.mboard.mapper.FileMapper;
 
 import jakarta.servlet.ServletOutputStream;
@@ -30,13 +30,13 @@ public class FileService {
 	private FileMapper fileMapper;
 	
 	//파일 업로드하기
-	public List<FileBoardDto> uploadFiles(String uploadPath, MultipartRequest multipartRequest) throws IllegalStateException, IOException{
+	public List<FileDto> uploadFiles(String uploadPath, MultipartRequest multipartRequest) throws IllegalStateException, IOException{
 		
 		//여러개의 파일들을 List에 담는 코드
 		List<MultipartFile> multipartFiles=multipartRequest.getFiles("filename");
 		
 		//업로드된 파일들의 정보(원본명,저장명)를 담아줄 LIST
-		List<FileBoardDto> uploadFileList=new ArrayList<>();
+		List<FileDto> uploadFileList=new ArrayList<>();
 		
 		for(MultipartFile multipartFile:multipartFiles) {
 			//원본파일명 구하기
@@ -47,13 +47,13 @@ public class FileService {
 			String fileuploadUrl=uploadPath+"/"+stored_filename;
 			multipartFile.transferTo(new File(fileuploadUrl)); //upload실행
 			//각각의 파일정보를 list에 저장하는 코드
-			uploadFileList.add(new FileBoardDto(0,0,origin_filename,stored_filename));
+			uploadFileList.add(new FileDto(0,0,origin_filename,stored_filename));
 		}
 		return uploadFileList;
 	}
 	
 	//파일정보 가져오기
-	public FileBoardDto getFileInfo(int file_seq) {
+	public FileDto getFileInfo(int file_seq) {
 		return fileMapper.getFileInfo(file_seq);
 	}
 

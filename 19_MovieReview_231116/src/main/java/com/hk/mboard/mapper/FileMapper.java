@@ -2,13 +2,13 @@ package com.hk.mboard.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.hk.mboard.dtos.FileBoardDto;
+import com.hk.mboard.dtos.FileDto;
 
 @Mapper
 public interface FileMapper {
 	   
 	   //파일 정보 추가
-	   public boolean insertFileBoard(FileBoardDto dto);
+	   public boolean insertFileBoard(FileDto dto);
 	   //팡리 정보 조회
-	   public FileBoardDto getFileInfo(int file_seq);
+	   public FileDto getFileInfo(int file_seq);
 }
