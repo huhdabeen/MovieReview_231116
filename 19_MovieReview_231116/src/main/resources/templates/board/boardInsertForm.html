@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-
+// $.ajax() ---> list 가져와서 for --> txt="<option value='aaa'/><option value='aaa'/><option value='aaa'/>"
+// $("datalist").html(txt)
 </script>
 <style type="text/css">
 
@@ -20,20 +21,18 @@
 	<input type="hidden" name="id" th:value="${session.mdto.id}" />
 	<table class="table">
 		<tr>
-			<th>작성자[ID]</th>
-			<td th:text="${session.mdto.id}"></td>
+			<th>작성자[NAME]</th>
+			<td th:text="${session.mdto.name}"></td>
+		</tr>
+		<tr>
+			<th>영화제목</th>
+			<td><input type="text" list="test"/><datalist id="test"><option value="aaaaaaa"/><option value="bbb"/></datalist></td>
 		</tr>
 		<tr>
 			<th>제목</th>
 			<td>
 				<input type="text" name="title" th:field="*{title}" class="form-control" />
 				<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
-			</td>
-		</tr>
-		<tr>
-			<th>파일</th>
-			<td>
-				<input type="file" name="filename" multiple="multiple" class="form-control" />
 			</td>
 		</tr>
 		<tr>
