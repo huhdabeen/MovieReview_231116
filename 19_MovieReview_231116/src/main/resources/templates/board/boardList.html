@@ -13,6 +13,13 @@
       }
    }
    
+   function spoSel(bool){
+	      var spochk=document.getElementsByName("spo");// [seq,seq,seq,seq..]
+	      for (var i = 0; i < spochk.length; i++) {
+	         spochk[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
+	      }
+	   }
+   
    function isCheck(){
       if(confirm("정말 삭제 하시겠습니까?")){
          return true;
@@ -28,6 +35,7 @@
 <div layout:fragment="content">
 <div id="container">
 <h1>게시판 목록</h1>
+<input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
 <form action="/board/mulDel" method="post" th:object="${delBoardCommand}">
    <table class="table">
       <tr>
@@ -50,6 +58,7 @@
                                  th:value="${dto.board_seq}"/></td>
             <td th:text="${dto.genre_nm}"></td>
             <td th:text="${dto.movie_nm}"></td>
+            
             <td>
                <a th:href="@{/board/boardDetail(board_seq=${dto.board_seq})}"
                   th:text="${dto.title}"></a>

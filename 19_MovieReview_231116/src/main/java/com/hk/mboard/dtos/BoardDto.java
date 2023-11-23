@@ -19,6 +19,7 @@ public class BoardDto {
 	private String name;
 	private Date regdate;
 	private String delflag;
+	private String spoflag;
 	
 	//Join용 멤버필드 
 	private List<MovieInfoDto> miBoardDto;
@@ -29,7 +30,7 @@ public class BoardDto {
 	}
 
 	public BoardDto(int board_seq, String genre_nm, String movie_nm, String title, String content, String name,
-			Date regdate, String delflag, List<MovieInfoDto> miBoardDto) {
+			Date regdate, String delflag, String spoflag, List<MovieInfoDto> miBoardDto) {
 		super();
 		this.board_seq = board_seq;
 		this.genre_nm = genre_nm;
@@ -39,6 +40,7 @@ public class BoardDto {
 		this.name = name;
 		this.regdate = regdate;
 		this.delflag = delflag;
+		this.spoflag = spoflag;
 		this.miBoardDto = miBoardDto;
 	}
 
@@ -46,7 +48,7 @@ public class BoardDto {
 	public String toString() {
 		return "BoardDto [board_seq=" + board_seq + ", genre_nm=" + genre_nm + ", movie_nm=" + movie_nm + ", title="
 				+ title + ", content=" + content + ", name=" + name + ", regdate=" + regdate + ", delflag=" + delflag
-				+ ", miBoardDto=" + miBoardDto + "]";
+				+ ", spoflag=" + spoflag + ", miBoardDto=" + miBoardDto + "]";
 	}
 
 	public int getBoard_seq() {
@@ -113,6 +115,14 @@ public class BoardDto {
 		this.delflag = delflag;
 	}
 
+	public String getSpoflag() {
+		return spoflag;
+	}
+
+	public void setSpoflag(String spoflag) {
+		this.spoflag = spoflag;
+	}
+
 	public List<MovieInfoDto> getMiBoardDto() {
 		return miBoardDto;
 	}
@@ -120,7 +130,6 @@ public class BoardDto {
 	public void setMiBoardDto(List<MovieInfoDto> miBoardDto) {
 		this.miBoardDto = miBoardDto;
 	}
-	
 	
 	
 }
