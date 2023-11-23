@@ -1,5 +1,6 @@
 package com.hk.mboard.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.hk.mboard.dtos.FileDto;
 import com.hk.mboard.service.FileService;
@@ -45,7 +47,10 @@ public class MemberController {
 	
 	@PostMapping(value = "/addUser")
 	public String addUser(@Validated AddUserCommand addUserCommand
-						  ,BindingResult result, Model model) {
+						  ,BindingResult result
+						  ,MultipartRequest multipartRequest //multipart data를 처리할때 사용
+						  ,HttpServletRequest request
+						  ,Model model) throws IllegalStateException, IOException {
 		System.out.println("회원가입하기");
 		
 		if(result.hasErrors()) {
@@ -54,7 +59,7 @@ public class MemberController {
 		}
 		
 		try {
-			memberService.addUser(addUserCommand);
+			memberService.addUser(addUserCommand,multipartRequest,request);
 			System.out.println("회원가입 성공");
 			return "redirect:/";
 		} catch (Exception e) {
