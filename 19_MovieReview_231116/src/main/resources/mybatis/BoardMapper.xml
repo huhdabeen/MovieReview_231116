@@ -10,15 +10,17 @@
 		<id property="content" 		column="CONTENT" />
 		<id property="regdate" 		column="REGDATE" />
 		
-		<collection property="fileBoardDto" resultMap="fileBoardDtoMap"></collection>
+		<collection property="miBoardDto" resultMap="miBoardDtoMap"></collection>
 	</resultMap>
 	
-<!-- 	<resultMap type="fileBoardDto" id="fileBoardDtoMap"> -->
-<!-- 		<id property="file_seq" 			column="FILE_SEQ" /> -->
-<!-- 		<result property="board_seq" 		column="BOARD_SEQ"/> -->
-<!-- 		<result property="origin_filename" 	column="ORIGIN_FILENAME"/> -->
-<!-- 		<result property="stored_filename" 	column="STORED_FILENAME"/> -->
-<!-- 	</resultMap> -->
+	<resultMap type="miBoardDto" id="miBoardDtoMap">
+		<id property="movie_seq" 		column="MOVIE_SEQ" />
+		<result property="movie_nm" 	column="MOVIE_NM"/>
+		<result property="opn" 			column="OPN"/>
+		<result property="nlty_nm" 		column="NLTY_NM"/>
+		<result property="genre_nm" 	column="GENRE_NM"/>
+		<result property="grad_nm" 		column="GRAD_NM"/>
+	</resultMap>
 
 	<select id="getAllList" resultType="boardDto">
 		SELECT BOARD_SEQ, GENRE_NM, MOVIE_NM, TITLE, CONTENT,NAME, REGDATE
