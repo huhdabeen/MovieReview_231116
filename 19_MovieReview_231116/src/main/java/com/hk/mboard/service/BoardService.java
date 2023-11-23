@@ -41,7 +41,7 @@ public class BoardService {
 			              throws IllegalStateException, IOException {
 		//command:UI -> dto:DB 데이터 옮겨담기
 		BoardDto boardDto=new BoardDto();
-		boardDto.setId(insertBoardCommand.getId());
+		boardDto.setName(insertBoardCommand.getId());
 		boardDto.setTitle(insertBoardCommand.getTitle());
 		boardDto.setContent(insertBoardCommand.getContent());
 		

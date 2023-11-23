@@ -12,30 +12,41 @@ import lombok.Data;
 public class BoardDto {
 	
 	private int board_seq;
-	private String id;
+	private String genre_nm;
+	private String movie_nm;
 	private String title;
 	private String content;
+	private String name;
 	private Date regdate;
 	private String delflag;
 	
 	//Join용 멤버필드 
-	private List<FileBoardDto> fileBoardDto;
-	
+	private List<MovieInfoDto> miBoardDto;
+
 	public BoardDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoardDto(int board_seq, String id, String title, String content, Date regdate, String delflag,
-			List<FileBoardDto> fileBoardDto) {
+	public BoardDto(int board_seq, String genre_nm, String movie_nm, String title, String content, String name,
+			Date regdate, String delflag, List<MovieInfoDto> miBoardDto) {
 		super();
 		this.board_seq = board_seq;
-		this.id = id;
+		this.genre_nm = genre_nm;
+		this.movie_nm = movie_nm;
 		this.title = title;
 		this.content = content;
+		this.name = name;
 		this.regdate = regdate;
 		this.delflag = delflag;
-		this.fileBoardDto = fileBoardDto;
+		this.miBoardDto = miBoardDto;
+	}
+
+	@Override
+	public String toString() {
+		return "BoardDto [board_seq=" + board_seq + ", genre_nm=" + genre_nm + ", movie_nm=" + movie_nm + ", title="
+				+ title + ", content=" + content + ", name=" + name + ", regdate=" + regdate + ", delflag=" + delflag
+				+ ", miBoardDto=" + miBoardDto + "]";
 	}
 
 	public int getBoard_seq() {
@@ -46,12 +57,20 @@ public class BoardDto {
 		this.board_seq = board_seq;
 	}
 
-	public String getId() {
-		return id;
+	public String getGenre_nm() {
+		return genre_nm;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setGenre_nm(String genre_nm) {
+		this.genre_nm = genre_nm;
+	}
+
+	public String getMovie_nm() {
+		return movie_nm;
+	}
+
+	public void setMovie_nm(String movie_nm) {
+		this.movie_nm = movie_nm;
 	}
 
 	public String getTitle() {
@@ -70,6 +89,14 @@ public class BoardDto {
 		this.content = content;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Date getRegdate() {
 		return regdate;
 	}
@@ -86,20 +113,14 @@ public class BoardDto {
 		this.delflag = delflag;
 	}
 
-	public List<FileBoardDto> getFileBoardDto() {
-		return fileBoardDto;
+	public List<MovieInfoDto> getMiBoardDto() {
+		return miBoardDto;
 	}
 
-	public void setFileBoardDto(List<FileBoardDto> fileBoardDto) {
-		this.fileBoardDto = fileBoardDto;
+	public void setMiBoardDto(List<MovieInfoDto> miBoardDto) {
+		this.miBoardDto = miBoardDto;
 	}
-
-	@Override
-	public String toString() {
-		return "BoardDto [board_seq=" + board_seq + ", id=" + id + ", title=" + title + ", content=" + content
-				+ ", regdate=" + regdate + ", delflag=" + delflag + ", fileBoardDto=" + fileBoardDto + "]";
-	}
-
+	
 	
 	
 }

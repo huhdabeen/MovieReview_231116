@@ -48,13 +48,13 @@
          <tr th:each="dto:${list}">
             <td><input type="checkbox" name="seq" th:field="*{seq}"
                                  th:value="${dto.board_seq}"/></td>
-            <td th:text="${dto.id}"></td>
-            <td></td>
+            <td th:text="${dto.genre_nm}"></td>
+            <td th:text="${dto.movie_nm}"></td>
             <td>
                <a th:href="@{/board/boardDetail(board_seq=${dto.board_seq})}"
                   th:text="${dto.title}"></a>
             </td>
-            <td></td>
+            <td th:text="${dto.name}"></td>
             <td th:text="${#dates.format(dto.regdate,'yyyy-MM-dd')}"></td>
          </tr>
          <tr>
