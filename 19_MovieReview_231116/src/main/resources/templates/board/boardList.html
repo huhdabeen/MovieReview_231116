@@ -35,7 +35,7 @@
 <div layout:fragment="content">
 <div id="container">
 <h1>게시판 목록</h1>
-<input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
+<div>스포&nbsp;<input type="checkbox" name="spo" onclick="spoSel(this.checked)" /></div>
 <form action="/board/mulDel" method="post" th:object="${delBoardCommand}">
    <table class="table">
       <tr>
