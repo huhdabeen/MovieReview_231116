@@ -58,7 +58,7 @@
             <td th:text="${#dates.format(dto.regdate,'yyyy-MM-dd')}"></td>
          </tr>
          <tr>
-            <td colspan="4">
+            <td colspan="6">
                <button type="button" class="btn" th:onclick="|location.href='@{/board/boardInsert}'|">글추가</button>
                <button type="submit" class="btn">삭제</button>
                <span th:if="${#fields.hasErrors('seq')}"
