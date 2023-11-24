@@ -9,6 +9,6 @@ public interface FileMapper {
 	   
 	   //파일 정보 추가
 	   public boolean insertFileBoard(FileDto dto);
-	   //팡리 정보 조회
+	   //파일 정보 조회
 	   public FileDto getFileInfo(int file_seq);
 }

@@ -24,14 +24,22 @@
        <span class="icon-bar"></span>
        <span class="icon-bar"></span>
      </button>
-     <a class="navbar-brand" href="/">MAIN</a>
+<!--     <a class="navbar-brand" href="/">MAIN</a>-->
    </div>
    <div id="navbar" class="collapse navbar-collapse">
      <ul class="nav navbar-nav">
-       <li class="active"><a href="#">Home</a></li>
-       <li><a href="#about">About</a></li>
-       <li><a href="#">나의정보</a></li>
+       <li class="active"><a href="/board/boardList">영화리뷰</a></li>
+       <li><a href="#">영화</a></li>
      </ul>
+     </br>
+       <th:block th:unless="${session.mdto==null}">
+		<p style="text-align: right;">
+			<img th:if="${fDto != null}" th:src="@{'/upload/' + ${fDto.stored_filename}}" alt="유저 이미지" style="max-width: 15px; height: 15px;"/>
+			<a href="#" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;
+			<a href="#" style="color: pink">게시글 관리</a>&nbsp;&nbsp;
+			<a href="/user/logout" style="color: pink">로그아웃</a>
+		</p>
+	   </th:block>
    </div>
    </div>
    </nav>

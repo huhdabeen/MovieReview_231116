@@ -66,10 +66,8 @@ public class MemberService {
 			//Testboard: board_seq PK       board_seq FK
 			for (FileDto fDto : uploadFileList) {
 				fileMapper.insertFileBoard(
-				 new FileDto(0, mdto.getMemberId(),//증가된 board_seq값을 넣는다 
-						             fDto.getOrigin_filename(),
-						 			 fDto.getStored_filename())
-				                          );
+						new FileDto(0, fDto.getOrigin_filename(), fDto.getStored_filename())
+					    );
 			}
 		}
 		return memberMapper.addUser(mdto);

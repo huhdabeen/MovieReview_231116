@@ -4,11 +4,11 @@
 <mapper namespace="com.hk.mboard.mapper.FileMapper">
 	<insert id="insertFileBoard" parameterType="fileDto">
 		INSERT INTO FILEINFO
-		VALUES(NULL,#{memberid},#{origin_filename},#{stored_filename})
+		VALUES(NULL,#{origin_filename},#{stored_filename})
 	</insert>
 	
 	<select id="getFileInfo" parameterType="Integer" resultType="fileDto">
-		SELECT FILE_SEQ, MEMBERID, ORIGIN_FILENAME, STORED_FILENAME
+		SELECT FILE_SEQ, ORIGIN_FILENAME, STORED_FILENAME
         FROM FILEINFO
         WHERE FILE_SEQ=#{file_seq}
 	</select>
