@@ -36,7 +36,7 @@
 		ON R.BOARD_SEQ = M.MOVIE_SEQ
 	</select>
 	
-	<select id="movieAllList" parameterType="Map" resultType="MovieInfoDto">
+	<select id="movieAllList" parameterType="Map" resultType="miBoardDto">
 		SELECT MOVIE_SEQ, MOVIE_NM
 		FROM MOVIEINFO3
 		WHERE MOVIE_NM LIKE CONCAT('%', #{value}, '%')
