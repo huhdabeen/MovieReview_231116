@@ -47,7 +47,7 @@ public class FileService {
 			String fileuploadUrl=uploadPath+"/"+stored_filename;
 			multipartFile.transferTo(new File(fileuploadUrl)); //upload실행
 			//각각의 파일정보를 list에 저장하는 코드
-			uploadFileList.add(new FileDto(0,0,origin_filename,stored_filename));
+			uploadFileList.add(new FileDto(0,origin_filename,stored_filename));
 		}
 		return uploadFileList;
 	}
@@ -96,6 +96,5 @@ public class FileService {
 		}
 	}
 }
-
 
 

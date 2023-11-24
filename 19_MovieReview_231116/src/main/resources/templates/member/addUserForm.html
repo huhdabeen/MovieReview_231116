@@ -96,7 +96,7 @@
 <div layout:fragment="content">
 <div id="container">
 <h1>회원 가입</h1>
-	<form onsubmit="return submitChk()" action="/user/addUser" method="post" th:object="${addUserCommand}">
+	<form onsubmit="return submitChk()" action="/user/addUser" method="post" th:object="${addUserCommand}" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
 				<th>아이디:</th>
@@ -127,7 +127,8 @@
 			<tr>
 				<th>이미지</th>
 				<td>
-					<input type="file" name="filename" multiple="multiple" class="form-control" accept=".jpg, .png"/>
+					<input type="file" name="filename" multiple="multiple" 
+					class="form-control" accept=".jpg, .png">
 				</td>
 			</tr>
 			<tr>

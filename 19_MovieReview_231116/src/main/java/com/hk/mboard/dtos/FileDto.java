@@ -6,18 +6,17 @@ import org.apache.ibatis.type.Alias;
 public class FileDto {
 	
 	private int file_seq;
-	private int memberId;
 	private String origin_filename;
 	private String stored_filename;
 	
 	public FileDto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public FileDto(int file_seq, int memberId, String origin_filename, String stored_filename) {
+	public FileDto(int file_seq, String origin_filename, String stored_filename) {
 		super();
 		this.file_seq = file_seq;
-		this.memberId = memberId;
 		this.origin_filename = origin_filename;
 		this.stored_filename = stored_filename;
 	}
@@ -28,14 +27,6 @@ public class FileDto {
 
 	public void setFile_seq(int file_seq) {
 		this.file_seq = file_seq;
-	}
-
-	public int getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
 	}
 
 	public String getOrigin_filename() {
@@ -56,8 +47,9 @@ public class FileDto {
 
 	@Override
 	public String toString() {
-		return "FileBoardDto [file_seq=" + file_seq + ", memberId=" + memberId + ", origin_filename="
-				+ origin_filename + ", stored_filename=" + stored_filename + "]";
+		return "FileDto [file_seq=" + file_seq + ", origin_filename=" + origin_filename + ", stored_filename="
+				+ stored_filename + "]";
 	}
 
+	
 }

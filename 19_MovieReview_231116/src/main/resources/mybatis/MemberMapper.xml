@@ -18,7 +18,6 @@
 	
 	<resultMap type="fileDto" id="fileDtoMap">
 		<id property="file_seq" 			column="FILE_SEQ" />
-		<result property="memberId" 		column="MEMBERID"/>
 		<result property="origin_filename" 	column="ORIGIN_FILENAME"/>
 		<result property="stored_filename" 	column="STORED_FILENAME"/>
 	</resultMap>
