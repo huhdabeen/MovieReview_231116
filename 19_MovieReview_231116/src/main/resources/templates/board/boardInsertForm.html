@@ -18,16 +18,16 @@
 // $("datalist").html(txt)
 $(function(){
 	//on("eventType",function(){})
-	$("datalist").on("keyup",function(){
+	$("#autoComplete").on("keyup",function(){
 		var movie_nm=$(this).val(); //id입력박스에 입력한 id값 가져오기 value->val()
 		//console.log(id);
 		$.ajax({
-			url:"/movie_nm/autoComplete",
+			url:"/board/movieList",
 			method:"get",
 			dataType:"json",
 			async:false,
 			data:{"movie_nm":movie_nm},
-			success:function(data){
+			success:function(value){
 				for (var i = 0; i < movie_nm.length; i++) {
 					var value = movie_nm[i];
 				}

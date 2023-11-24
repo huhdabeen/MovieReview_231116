@@ -2,7 +2,9 @@ package com.hk.mboard.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.hk.mboard.command.DelBoardCommand;
@@ -20,6 +23,7 @@ import com.hk.mboard.command.InsertBoardCommand;
 import com.hk.mboard.command.UpdateBoardCommand;
 import com.hk.mboard.dtos.BoardDto;
 import com.hk.mboard.dtos.FileDto;
+import com.hk.mboard.dtos.MovieInfoDto;
 import com.hk.mboard.service.BoardService;
 import com.hk.mboard.service.FileService;
 
@@ -44,11 +48,17 @@ public class BoardController {
 		model.addAttribute("delBoardCommand", new DelBoardCommand());
 		return "board/boardList";// forward 기능, "redirect:board/boardList"
 	}
-	
-	@GetMapping(value = "/movieList")
-	public String movieList(Model model) {
-		//list만들고 ajax로
-		return "board/movieList";
+
+	@RequestMapping(value="/movieList", method={RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody 
+	public Map<String, List> movieList() {
+		System.out.println("영화리스트");
+		
+		Map<String, List> map=new HashMap<>();
+		List<MovieInfoDto> mlist=boardService.movieAllList();
+		map.put("mlist", mlist);
+		
+		return map;
 	}
 		
 	@GetMapping(value = "/boardInsert")
@@ -75,7 +85,7 @@ public class BoardController {
 	}
 	
 	//상세보기
-	@GetMapping(value = "/boardDetail")
+	@GetMapping(value = "/boardDetail" )
 	public String boardDetail(int board_seq, Model model) {
 		BoardDto dto=boardService.getBoard(board_seq);
 		
