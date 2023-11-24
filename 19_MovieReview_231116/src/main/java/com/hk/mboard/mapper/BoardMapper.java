@@ -1,6 +1,5 @@
 package com.hk.mboard.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -25,3 +24,5 @@ public interface BoardMapper {
 	//영화 정보
 	public List<MovieInfoDto> movieAllList(String movie_nm);
 }
+
+

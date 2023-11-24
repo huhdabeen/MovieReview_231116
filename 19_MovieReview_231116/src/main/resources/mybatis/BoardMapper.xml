@@ -37,11 +37,11 @@
 	</select>
 	
 	<select id="movieAllList" parameterType="Map" resultType="miBoardDto">
-		SELECT MOVIE_SEQ, GENRE_NM, MOVIE_NM
+		SELECT MOVIE_SEQ, CONCAT(GENRE_NM ,'_',MOVIE_NM) movie_nm
 		FROM MOVIEINFO3
 		WHERE MOVIE_NM LIKE CONCAT('%', #{movie_nm}, '%')
 	</select> 
-	
+	_로 스플릿으로 잘라서 장르랑 제목 > 배열로 분리됨 >> 0번째는 genre_nm(dto에 저장), 1번째()
 	<!-- 	useGeneratedKeys="true" keyProperty="board_seq"
         : 증가된 board_seq값을 BoardDto에 전달 : insertBoard(boardDto) -->
 	<insert id="insertBoard" parameterType="boardDto"
