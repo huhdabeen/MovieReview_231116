@@ -22,5 +22,5 @@ public interface BoardMapper {
 	public boolean mulDel(String [] seqs);
 	
 	//영화 정보
-	public List<MovieInfoDto> movieAllList();
+	public List<MovieInfoDto> movieAllList(String movie_nm);
 }

@@ -32,8 +32,8 @@ public class BoardService {
 	}
 	
 	//영화정보 조회
-	public List<MovieInfoDto> movieAllList(){
-		return boardMapper.movieAllList();
+	public List<MovieInfoDto> movieAllList(String movie_nm){
+		return boardMapper.movieAllList(movie_nm);
 	}
 
 	//글 추가, 파일업로드및 파일정보 추가

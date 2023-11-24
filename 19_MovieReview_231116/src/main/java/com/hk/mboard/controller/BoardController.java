@@ -51,13 +51,13 @@ public class BoardController {
 
 	@RequestMapping(value="/movieList", method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody 
-	public Map<String, List> movieList() {
-		System.out.println("영화리스트");
+	public Map<String, List<MovieInfoDto>> movieList(String movie_nm) {
+		System.out.println("영화리스트:"+movie_nm);
 		
-		Map<String, List> map=new HashMap<>();
-		List<MovieInfoDto> mlist=boardService.movieAllList();
+		Map<String, List<MovieInfoDto>> map=new HashMap<>();
+		List<MovieInfoDto> mlist=boardService.movieAllList(movie_nm);
 		map.put("mlist", mlist);
-		
+		System.out.println(mlist.size());
 		return map;
 	}
 		
