@@ -47,7 +47,7 @@
 	<insert id="insertBoard" parameterType="boardDto"
 		useGeneratedKeys="true" keyProperty="board_seq">
 		INSERT INTO RVBOARD
-		VALUES(NULL,#{board_seq},#{genre_nm}, #{movie_nm}, #{title}, #{content}, #{name}, sysdate(), 'N', #{spoflag})
+		VALUES(NULL,#{board_seq},#{genre_nm}, #{movie_nm}, #{title}, #{content}, #{name}, sysdate(), 'N')
 	</insert>
 	
 <!-- 	<update id="updateBoard" parameterType="boardDto"> -->
