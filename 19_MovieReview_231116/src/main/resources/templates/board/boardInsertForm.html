@@ -19,7 +19,7 @@
 $(function(){
 	//on("eventType",function(){})
 	$("#autoComplete").on("keyup",function(){
-		var movie_nm=$(this).val(); //id입력박스에 입력한 id값 가져오기 value->val()
+		var movie_nm=$(this).val();
 		//console.log(id);
 		$.ajax({
 			url:"/board/movieList",
@@ -70,14 +70,12 @@ $(function(){
 			<td>
 				<input type="text" name="movie_nm" id="autoComplete" list="movie_options"/>
 				<datalist id="movie_options">
-					<option value="aaaaaaa"/>
-					<option value="bbb"/>
 				</datalist>
 			</td>
 		</tr>
 		<tr>
 			<th>스포</th>
-			<input input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
+			<input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
 		</tr>
 		<tr>
 			<th>제목</th>
