@@ -49,7 +49,7 @@ public class MemberService {
 		mdto.setEmail(addUserCommand.getEmail());
 		mdto.setRole(RoleStatus.USER+""); //등급추가
 
-		memberMapper.addUser(mdto);//새글 추가
+//		memberMapper.addUser(mdto);//새글 추가
 		System.out.println("파일첨부여부:"
 		+multipartRequest.getFiles("filename").get(0).isEmpty());
 		//첨부된 파일들이 있는 경우
@@ -108,4 +108,3 @@ public class MemberService {
 		return path;
 	}
 }
-
