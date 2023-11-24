@@ -27,10 +27,20 @@ $(function(){
 			dataType:"json",
 			async:false,
 			data:{"movie_nm":movie_nm},
-			success:function(value){
-				for (var i = 0; i < movie_nm.length; i++) {
-					var value = movie_nm[i];
+			success:function(val){
+// 				for (var i = 0; i < movie_nm.length; i++) {
+// 					var value = movie_nm[i];
+// 				}
+
+// 				alert(val["mlist"][0].movie_nm);
+				//jquery 문법
+				var mlist=val["mlist"];//mlist객체 가져오기 [movieInforDto,movieInforDto,movieInforDto...]
+				var mlistOptions="";
+				for(var i=0;i<mlist.length;i++){
+					mlistOptions+="<option value='"+mlist[i].movie_nm+"'/>";
 				}
+				
+				$("#movie_options").html(mlistOptions);
 			},
 			error:function(){
 				alert("영화이름 찾기 실패");
@@ -58,8 +68,7 @@ $(function(){
 		<tr>
 			<th>영화제목</th>
 			<td>
-				<label for="movie">영화제목 검색</label>
-				<input type="text" id="autoComplete" list="movie_options"/>
+				<input type="text" name="movie_nm" id="autoComplete" list="movie_options"/>
 				<datalist id="movie_options">
 					<option value="aaaaaaa"/>
 					<option value="bbb"/>
