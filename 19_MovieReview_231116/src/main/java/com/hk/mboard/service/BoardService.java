@@ -13,6 +13,7 @@ import com.hk.mboard.command.InsertBoardCommand;
 import com.hk.mboard.command.UpdateBoardCommand;
 import com.hk.mboard.dtos.BoardDto;
 import com.hk.mboard.dtos.FileDto;
+import com.hk.mboard.dtos.MovieInfoDto;
 import com.hk.mboard.mapper.BoardMapper;
 import com.hk.mboard.mapper.FileMapper;
 
@@ -28,6 +29,11 @@ public class BoardService {
 	//글목록 조회
 	public List<BoardDto> getAllList(){
 		return boardMapper.getAllList();
+	}
+	
+	//영화정보 조회
+	public List<MovieInfoDto> movieAllList(){
+		return boardMapper.movieAllList();
 	}
 
 	//글 추가, 파일업로드및 파일정보 추가

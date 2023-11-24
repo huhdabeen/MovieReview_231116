@@ -45,6 +45,12 @@ public class BoardController {
 		return "board/boardList";// forward 기능, "redirect:board/boardList"
 	}
 	
+	@GetMapping(value = "/movieList")
+	public String movieList(Model model) {
+		//list만들고 ajax로
+		return "board/movieList";
+	}
+		
 	@GetMapping(value = "/boardInsert")
 	public String boardInsertForm(Model model) {
 		model.addAttribute("insertBoardCommand", new InsertBoardCommand());

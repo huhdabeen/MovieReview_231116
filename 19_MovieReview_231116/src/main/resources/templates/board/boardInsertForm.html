@@ -6,8 +6,39 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+
+	function spoSel(bool){
+	    var spochk=document.getElementsByName("spo");// [seq,seq,seq,seq..]
+	    for (var i = 0; i < spochk.length; i++) {
+	       spochk[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
+	    }
+	 }
+
 // $.ajax() ---> list 가져와서 for --> txt="<option value='aaa'/><option value='aaa'/><option value='aaa'/>"
 // $("datalist").html(txt)
+$(function(){
+	//on("eventType",function(){})
+	$("datalist").on("keyup",function(){
+		var movie_nm=$(this).val(); //id입력박스에 입력한 id값 가져오기 value->val()
+		//console.log(id);
+		$.ajax({
+			url:"/movie_nm/autoComplete",
+			method:"get",
+			dataType:"json",
+			async:false,
+			data:{"movie_nm":movie_nm},
+			success:function(data){
+				for (var i = 0; i < movie_nm.length; i++) {
+					var value = movie_nm[i];
+				}
+			},
+			error:function(){
+				alert("영화이름 찾기 실패");
+			}
+		});
+	});
+});
+
 </script>
 <style type="text/css">
 
@@ -26,7 +57,18 @@
 		</tr>
 		<tr>
 			<th>영화제목</th>
-			<td><input type="text" list="test"/><datalist id="test"><option value="aaaaaaa"/><option value="bbb"/></datalist></td>
+			<td>
+				<label for="movie">영화제목 검색</label>
+				<input type="text" id="autoComplete" list="movie_options"/>
+				<datalist id="movie_options">
+					<option value="aaaaaaa"/>
+					<option value="bbb"/>
+				</datalist>
+			</td>
+		</tr>
+		<tr>
+			<th>스포</th>
+			<input input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
 		</tr>
 		<tr>
 			<th>제목</th>

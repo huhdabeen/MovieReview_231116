@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.hk.mboard.dtos.BoardDto;
+import com.hk.mboard.dtos.MovieInfoDto;
 
 @Mapper
 public interface BoardMapper {
@@ -19,4 +20,7 @@ public interface BoardMapper {
 	public boolean updateBoard(BoardDto dto);
 	//글삭제
 	public boolean mulDel(String [] seqs);
+	
+	//영화 정보
+	public List<MovieInfoDto> movieAllList();
 }
