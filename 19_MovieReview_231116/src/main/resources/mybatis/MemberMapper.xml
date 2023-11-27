@@ -5,7 +5,7 @@
 	
 	<insert id="addUser" parameterType="memberDto">
 		INSERT INTO MRMEMBER
-		VALUES(NULL,#{id},#{password},#{name},#{email},#{role},#{file_seq},#{stored_name})
+		VALUES(NULL,#{id},#{password},#{name},#{email},#{role})
 	</insert>
 	
 	<select id="idChk" parameterType="String" resultType="String">
@@ -23,7 +23,7 @@
 	</resultMap>
 	
 	<select id="loginUser" parameterType="String" resultType="memberDto">
-		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE, FILE_SEQ, STORED_NAME
+		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE
 		FROM MRMEMBER
 		WHERE ID=#{id}
 	</select>
