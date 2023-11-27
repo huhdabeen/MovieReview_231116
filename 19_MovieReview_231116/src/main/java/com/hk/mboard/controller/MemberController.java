@@ -108,6 +108,12 @@ public class MemberController {
 				                ,request,response);
 	}
 	//
+	//로그인 폼 이동
+	@GetMapping(value = "/login")
+	public String loginForm(Model model) {
+		model.addAttribute("loginCommand",new LoginCommand());
+		return "member/login";
+	}
 	@PostMapping(value = "/login")
 	public String login(@Validated LoginCommand loginCommand,
 	                    BindingResult result,
