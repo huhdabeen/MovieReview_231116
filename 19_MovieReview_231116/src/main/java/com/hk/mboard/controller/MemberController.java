@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.hk.mboard.dtos.FileDto;
+import com.hk.mboard.dtos.MemberDto;
 import com.hk.mboard.service.FileService;
 import com.hk.mboard.command.AddUserCommand;
 import com.hk.mboard.command.LoginCommand;
@@ -44,6 +45,7 @@ public class MemberController {
 
 		return "member/addUserForm";
 	}
+	
 	
 	@PostMapping(value = "/addUser")
 	public String addUser(@Validated AddUserCommand addUserCommand
@@ -105,29 +107,53 @@ public class MemberController {
 				                ,fdto.getStored_filename()
 				                ,request,response);
 	}
+	//
+	@PostMapping(value = "/login")
+	public String login(@Validated LoginCommand loginCommand,
+	                    BindingResult result,
+	                    Model model,
+	                    HttpServletRequest request) {
+	    if (result.hasErrors()) {
+	        System.out.println("로그인 유효값 오류");
+	        return "member/login";
+	    }
+
+	    String path = memberService.login(loginCommand, request, model);
+
+	    if ("home".equals(path)) {
+	        MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
+	        if (loggedInUser != null && loggedInUser.getFile_seq() != 0) {
+	            FileDto userImage = fileService.getFileInfo(loggedInUser.getFile_seq());
+	            model.addAttribute("userImage", userImage);
+	        }
+	    }
+
+	    return path;
+	}
+	//
 	
 	//로그인 폼 이동
-	@GetMapping(value = "/login")
-	public String loginForm(Model model) {
-		model.addAttribute("loginCommand",new LoginCommand());
-		return "member/login";
-	}
-	
-	//로그인 실행
-	@PostMapping(value = "/login")
-	public String login(@Validated LoginCommand loginCommand
-						,BindingResult result
-						,Model model
-						,HttpServletRequest request) {
-		if(result.hasErrors()) {
-			System.out.println("로그인 유효값 오류");
-			return "member/login";
-		}
-		
-		String path=memberService.login(loginCommand, request, model);
-		
-		return path;
-	}
+//	@GetMapping(value = "/login")
+//	public String loginForm(Model model) {
+//		model.addAttribute("loginCommand",new LoginCommand());
+//		return "member/login";
+//	}
+//	
+//	//로그인 실행
+//	@PostMapping(value = "/login")
+//	public String login(@Validated LoginCommand loginCommand
+//						,BindingResult result
+//						,Model model
+//						,HttpServletRequest request) {
+//		if(result.hasErrors()) {
+//			System.out.println("로그인 유효값 오류");
+//			return "member/login";
+//		}
+//		
+//		String path=memberService.login(loginCommand, request, model);
+//		
+//		return path;
+//	}
 	
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request) {

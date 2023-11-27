@@ -82,27 +82,63 @@ public class MemberService {
 		return memberMapper.nameChk(name);
 	}
 	
-	public String login(LoginCommand loginCommand
-						,HttpServletRequest request
-						,Model model) {
-		MemberDto dto=memberMapper.loginUser(loginCommand.getId());
-		String path="home";
-		if(dto!=null) {
-			//로그인 폼에서 입력받은 패스워드값과 DB에 암호화된 패스워드 비교
-			if(passwordEncoder.matches(loginCommand.getPassword(),dto.getPassword())) {
-				System.out.println("패스워드 같음: 회원이 맞음");
-				request.getSession().setAttribute("mdto", dto);
-				return path;
-			}else {
-				System.out.println("패스워드 틀림");
-				model.addAttribute("msg","패스워드를 확인하세요.");
-				path="member/login";
-			}
-		}else {
-			System.out.println("회원이 아닙니다.");
-			model.addAttribute("msg","아이디를 확인하세요.");
-			path="member/login";
-		}
-		return path;
-	}
+	//
+    public String login(LoginCommand loginCommand, HttpServletRequest request, Model model) {
+        MemberDto dto = memberMapper.loginUser(loginCommand.getId());
+        String path = "home";
+
+        if (dto != null) {
+            if (passwordEncoder.matches(loginCommand.getPassword(), dto.getPassword())) {
+                System.out.println("패스워드 같음: 회원이 맞음");
+
+                // 세션에 사용자 정보 저장
+                request.getSession().setAttribute("mdto", dto);
+
+                // 사용자가 등록한 프로필 이미지 정보 조회
+                if (dto.getFile_seq() != 0) {
+                    FileDto userImage = fileService.getFileInfo(dto.getFile_seq());
+                    model.addAttribute("userImage", userImage);
+                }
+
+                return path;
+            } else {
+                System.out.println("패스워드 틀림");
+                model.addAttribute("msg", "패스워드를 확인하세요.");
+                path = "member/login";
+            }
+        } else {
+            System.out.println("회원이 아닙니다.");
+            model.addAttribute("msg", "아이디를 확인하세요.");
+            path = "member/login";
+        }
+
+        return path;
+    }
+	//
+    
+//	public String login(LoginCommand loginCommand
+//						,HttpServletRequest request
+//						,Model model) {
+//		MemberDto dto=memberMapper.loginUser(loginCommand.getId());
+//		String path="home";
+//		if(dto!=null) {
+//			//로그인 폼에서 입력받은 패스워드값과 DB에 암호화된 패스워드 비교
+//			if(passwordEncoder.matches(loginCommand.getPassword(),dto.getPassword())) {
+//				System.out.println("패스워드 같음: 회원이 맞음");
+//				request.getSession().setAttribute("mdto", dto);
+//				return path;
+//			}else {
+//				System.out.println("패스워드 틀림");
+//				model.addAttribute("msg","패스워드를 확인하세요.");
+//				path="member/login";
+//			}
+//		}else {
+//			System.out.println("회원이 아닙니다.");
+//			model.addAttribute("msg","아이디를 확인하세요.");
+//			path="member/login";
+//		}
+//		return path;
+//	}
+
+
 }
