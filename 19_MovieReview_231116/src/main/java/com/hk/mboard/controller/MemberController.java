@@ -131,9 +131,10 @@ public class MemberController {
 
 	    if ("home".equals(path)) {
 	        MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
-	        if (loggedInUser != null && loggedInUser.getFile_seq() != 0) {
-	            FileDto userImage = fileService.getFileInfo(loggedInUser.getFile_seq());
+	        if (loggedInUser != null && loggedInUser.getMemberId() != 0) {
+	            FileDto userImage = fileService.getFileInfo(loggedInUser.getMemberId());
 	            model.addAttribute("userImage", userImage);
+	            System.out.println("프로필 사진내놔");
 	        }
 	    }
 

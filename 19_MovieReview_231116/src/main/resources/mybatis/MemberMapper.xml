@@ -29,7 +29,7 @@
 	</select>
 	
 	<!-- 	4.나의 정보 조회 -->
-	<select id="getUserInfo" parameterType="Integer" resultMap="boardDtoMap">
+	<select id="getUserInfo" parameterType="Integer" resultType="memberDto">
 	  SELECT MEMBERID,ID, NAME, EMAIL, ROLE
 	  FROM MRMEMBER
 	  WHERE ID=#{id}
