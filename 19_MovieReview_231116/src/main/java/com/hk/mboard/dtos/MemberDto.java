@@ -15,6 +15,7 @@ public class MemberDto {
 	private String name; //닉네임
 	private String email; //이메일
 	private String role;
+	private String delflag;
 	private int file_seq;
 	private String stored_name;
 	
@@ -26,8 +27,8 @@ public class MemberDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MemberDto(int memberId, String id, String password, String name, String email, String role, int file_seq,
-			String stored_name, List<FileDto> fileDto) {
+	public MemberDto(int memberId, String id, String password, String name, String email, String role, String delflag,
+			int file_seq, String stored_name, List<FileDto> fileDto) {
 		super();
 		this.memberId = memberId;
 		this.id = id;
@@ -35,6 +36,7 @@ public class MemberDto {
 		this.name = name;
 		this.email = email;
 		this.role = role;
+		this.delflag = delflag;
 		this.file_seq = file_seq;
 		this.stored_name = stored_name;
 		this.fileDto = fileDto;
@@ -88,6 +90,14 @@ public class MemberDto {
 		this.role = role;
 	}
 
+	public String getDelflag() {
+		return delflag;
+	}
+
+	public void setDelflag(String delflag) {
+		this.delflag = delflag;
+	}
+
 	public int getFile_seq() {
 		return file_seq;
 	}
@@ -115,10 +125,11 @@ public class MemberDto {
 	@Override
 	public String toString() {
 		return "MemberDto [memberId=" + memberId + ", id=" + id + ", password=" + password + ", name=" + name
-				+ ", email=" + email + ", role=" + role + ", file_seq=" + file_seq + ", stored_name=" + stored_name
-				+ ", fileDto=" + fileDto + "]";
+				+ ", email=" + email + ", role=" + role + ", delflag=" + delflag + ", file_seq=" + file_seq
+				+ ", stored_name=" + stored_name + ", fileDto=" + fileDto + "]";
 	}
-
+	
+	
 }
 
 //package com.hk.mboard.dtos;

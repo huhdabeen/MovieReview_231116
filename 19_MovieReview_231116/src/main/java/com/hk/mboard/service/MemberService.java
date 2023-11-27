@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.hk.mboard.command.AddUserCommand;
 import com.hk.mboard.command.LoginCommand;
+import com.hk.mboard.command.UpdateUserCommand;
 import com.hk.mboard.dtos.FileDto;
 import com.hk.mboard.dtos.MemberDto;
 import com.hk.mboard.mapper.FileMapper;
@@ -140,5 +141,23 @@ public class MemberService {
 //		return path;
 //	}
 
+    //회원상세
+    public MemberDto getUser(int memberId) {
+    	return memberMapper.getUserInfo(memberId);
+    }
+    
+    //회원정보수정하기
+    public boolean updateUser(UpdateUserCommand updateUserCommand) {
+    	MemberDto dto=new MemberDto();
+    	//dto.setMemberId(updateUserCommand.getMemberId());
+    	dto.setName(updateUserCommand.getName());
+    	dto.setEmail(updateUserCommand.getEmail());   	
+    	return memberMapper.updateUser(dto);
+    }
+    
+	public boolean delUser(MemberDto dto) {
+		return memberMapper.delUser(dto);
+	}
+    
 
 }

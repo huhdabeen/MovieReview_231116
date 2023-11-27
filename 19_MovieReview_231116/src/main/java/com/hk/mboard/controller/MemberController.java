@@ -21,10 +21,12 @@ import com.hk.mboard.dtos.MemberDto;
 import com.hk.mboard.service.FileService;
 import com.hk.mboard.command.AddUserCommand;
 import com.hk.mboard.command.LoginCommand;
+import com.hk.mboard.command.UpdateUserCommand;
 import com.hk.mboard.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.websocket.Session;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -114,6 +116,8 @@ public class MemberController {
 		model.addAttribute("loginCommand",new LoginCommand());
 		return "member/login";
 	}
+	
+	
 	@PostMapping(value = "/login")
 	public String login(@Validated LoginCommand loginCommand,
 	                    BindingResult result,
@@ -167,5 +171,56 @@ public class MemberController {
 		request.getSession().invalidate();
 		return "redirect:/";
 	}
+
+	//내정보조회
+	@GetMapping(value = "/UserDetail")
+	public String updateUserForm(int memberId, Model model) {
+//		System.out.println("회원정보 수정폼");
+		MemberDto dto=memberService.getUser(memberId);
+		
+		//유효값처리용
+		model.addAttribute("UpdateUserCommand",new UpdateUserCommand());
+		//출력용
+		model.addAttribute(dto);		
+		System.out.println(dto);		
+		return "member/userDetail";
+	}
+	
+	//내정보수정
+	@PostMapping("/edit")
+	public String updateUser(@Validated UpdateUserCommand updateUserCommand,
+						   BindingResult result) {
+		if(result.hasErrors()) {
+			System.out.println("수정할 정보를 모두 입력하세요");
+			return "member/userDetail";
+		}
+		memberService.updateUser(updateUserCommand);
+		
+		return "redirect:/member/userDetail?memberId="+updateUserCommand.getMemberId();
+	}
+	
+//	@GetMapping("/edit") // 내정보보기
+//	public void updateUserForm(HttpServletRequest request, Model model) {
+//		session.removeAttribute("msg"); // 로그인성공 메시지 초기화
+//		String id = (String) session.getAttribute("loginId");
+//		MemberVo vo = service.getMember(id);
+//		map.addAttribute("vo", vo);
+//	}
+//
+//	@PostMapping("/edit") // 수정
+//	public String edit(MemberVo vo) {
+//		service.editMember(vo);
+//		return "redirect:/member/edit";
+//	}
+	
+//	 탈퇴
+//	@RequestMapping("/out")
+//	public String out(HttpSession session) {
+//		String id = (String) session.getAttribute("loginId");
+//		service.delMember(id);
+//		session.invalidate();
+//		//return "redirect:/member/logout";
+//		return "index";
+//	}
 	
 }
