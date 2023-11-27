@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function updateEX(){
+		if(confirm("수정하시겠습니까?")){
+			return true;
+		}
+		return false
+	}
+$(function(){
+		//on("eventType",function(){})
+		$("input[name=name]").on("keyup",function(){
+			var id=$(this).val(); 
+			$.ajax({
+				url:"/user/nameChk",
+				method:"get",
+				dataType:"json",
+				async:false,
+				data:{"name":name},
+				success:function(data){
+					if(data.name!=null){ //사용할 수 없는 id
+						//console.log("사용못함");
+						$("#nameChk").attr("class","n")
+								   .css("color","red")
+								   .text("사용할 수 없는 닉네임입니다.");
+					}else{ //사용할 수 있는 id
+						//console.log("사용함");
+						$("#nameChk").attr("class","y")
+								   .css("color","red")
+								   .text("사용 가능한 닉네임입니다.");
+					}
+				},
+				error:function(e){
+					alert("통신오류:"+e);
+				}
+			});
+		});
+	});
+	
+	function submitChk(){
+		var classValue=$("#nameChk").attr("class");
+		if(classValue=="n"){
+			alert("닉네임을 확인하세요.");
+			return false;
+		}
+		return true;
+	}
+</script>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<div id="container">
+<h1>회원정보 상세보기</h1>
+	<form onsubmit="return updateEX()" action="/user/edit" method="post" th:object="${UpdateUserCommand}" enctype="multipart/form-data">
+		<table class="table">
+			<tr>
+				<th>아이디:</th>
+				<td th:text="${session.mdto.id}"></td>
+			</tr>
+			<tr>
+				<th>등급:</th>
+				<td th:text="${session.mdto.role}"></td>
+			</tr>
+			<tr>
+				<th>닉네임:</th>
+				<td><input th:field="*{name}" type="text" 
+				              class="form-control" name="name" />
+				    <span id="nameChk" class="n"></span>
+					<span th:if="${#fields.hasErrors('name')}" 
+					      th:errors="*{name}"></span>
+				</td>
+			</tr>
+			<tr>
+				<th>파일 [[${#lists.size(dto.fileBoardDto)}]]</th>
+				<th:block th:if="${dto.fileBoardDto[0].origin_filename==null}">
+					<td>첨부파일없음</td>
+				</th:block>
+				<th:block th:unless="${dto.fileBoardDto[0].origin_filename==null}">
+					<td>
+						<th:block th:each="fdto:${dto.fileBoardDto}">
+							<span class="glyphicon glyphicon-folder-open"></span>
+							<a th:text="${fdto.origin_filename}"
+							   th:href="@{/member/download(file_seq=${fdto.file_seq})}" ></a>&nbsp;&nbsp;
+						</th:block>
+					</td>
+				</th:block>
+			</tr>
+			<tr>
+				<th>이메일:</th>
+				<td><input th:field="*{email}" type="email" 
+				              class="form-control" name="email" />
+					<span th:if="${#fields.hasErrors('email')}" 
+					      th:errors="*{email}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" value="수정완료" class="btn"/>
+				</td>
+			</tr>
+			<tr>
+			<td colspan="2">
+				<button type="submit" class="btn">수정</button>
+				<button type="button" class="btn"
+				 th:onclick="|location.href='@{/board/mulDel(seq=${dto.board_seq})}'|">탈퇴</button>
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+</div>
+</body>
+</html>

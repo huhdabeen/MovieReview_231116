@@ -38,7 +38,7 @@
 		    <div th:if="${userImage != null}">
         		<img th:src="@{'/upload/' + userImage.stored_filename}" alt="User Image" style="max-width: 15px; height: 15px;"/>
     		</div>
-			<a href="#" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;
+			<a href="/user/edit" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;
 			<a href="#" style="color: pink">게시글 관리</a>&nbsp;&nbsp;
 			<a href="/user/logout" style="color: pink">로그아웃</a>
 		</p>

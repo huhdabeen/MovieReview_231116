@@ -5,7 +5,7 @@
 	
 	<insert id="addUser" parameterType="memberDto">
 		INSERT INTO MRMEMBER
-		VALUES(NULL,#{id},#{password},#{name},#{email},#{role},#{file_seq},#{stored_name})
+		VALUES(NULL,#{id},#{password},#{name},#{email},#{role})
 	</insert>
 	
 	<select id="idChk" parameterType="String" resultType="String">
@@ -23,10 +23,31 @@
 	</resultMap>
 	
 	<select id="loginUser" parameterType="String" resultType="memberDto">
-		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE, FILE_SEQ, STORED_NAME
+		SELECT MEMBERID, ID, PASSWORD, NAME, EMAIL, ROLE
 		FROM MRMEMBER
 		WHERE ID=#{id}
 	</select>
+	
+	<!-- 	4.나의 정보 조회 -->
+	<select id="getUserInfo" parameterType="Integer" resultMap="boardDtoMap">
+	  SELECT MEMBERID,ID, NAME, EMAIL, ROLE
+	  FROM MRMEMBER
+	  WHERE ID=#{id}
+	</select>
+	
+	<!-- 	5.나의 정보 수정하기 -->
+	<update id="updateUser" parameterType="memberDto">
+	  UPDATE mrmember
+	  SET NAME=#{name}, email=#{email}
+	  WHERE ID=#{id}
+	</update>
+	
+	<!-- 	6.회원탈퇴하기 -->
+	<update id="delUser" parameterType="memberDto">
+	  UPDATE mrmember
+	  SET delflag='Y'
+	  WHERE ID=#{id}
+	</update>
 
 </mapper>
 
