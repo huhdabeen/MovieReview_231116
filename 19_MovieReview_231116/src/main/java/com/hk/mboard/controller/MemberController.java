@@ -151,6 +151,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
+	
 	//내정보조회	
 	@GetMapping(value = "/userDetail")
 	public String userDetail(@RequestParam(name = "memberId", defaultValue = "1") int memberId, Model model) {
@@ -176,8 +177,16 @@ public class MemberController {
 	    return "member/userDetail";
 	}
 
-	// 내정보수정
-	@PostMapping(value = "/userUpdate")
+	//내정포수정폼
+	@GetMapping(value = "/updatedInfo")
+	public String userUpdateForm(Model model) {
+		model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
+		System.out.println("내정보수정폼 가기");
+		return "member/updatedInfo";
+	}
+	
+	//내정보수정
+	@PostMapping(value = "/userUpdatedInfo")
 	public String userUpdate(@Validated UpdateUserCommand updateUserCommand,
 	                         BindingResult result,
 	                         HttpServletRequest request,
@@ -185,31 +194,26 @@ public class MemberController {
 	    if (result.hasErrors()) {
 	        System.out.println("수정할 내용을 모두 입력하세요");
 	        model.addAttribute("dto", updateUserCommand);
-	        return "member/userDetail";
+	        return "member/updatedInfo";
 	    }
 
-	    System.out.println("Received UpdateUserCommand: " + updateUserCommand);
+	    System.out.println("받은 UpdateUserCommand: " + updateUserCommand);
 
 	    memberService.updateUser(updateUserCommand);
+//	    return "redirect:/userDetail?memberId=" + updateUserCommand.getMemberId();
+
 	    // 수정: memberId를 쿼리스트링으로 넘기는 대신, 세션에서 직접 읽어오도록 수정
 	    MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
 	    if (loggedInUser != null) {
-	        return "redirect:/userUpdatedInfo?memberId=" + updateUserCommand.getMemberId();
+	    	loggedInUser.setName(updateUserCommand.getName());
+	    	request.getSession().setAttribute("mdto", loggedInUser);
+	        return "redirect:/user/userDetail?memberId=" + loggedInUser.getMemberId();
 	    } else {
 	        // 세션에 사용자 정보가 없는 경우의 예외 처리
 	        return "redirect:/"; // 또는 적절한 경로로 이동
 	    }
 	}
-	
-	// 회원 정보 수정 후 수정된 정보를 조회하는 메서드
-	@GetMapping("/userUpdatedInfo")
-	public String userUpdatedInfo(@RequestParam("memberId") int memberId, Model model) {
-	    MemberDto updatedInfo = memberService.getUserInfo(memberId);
-	    model.addAttribute("updatedInfo", updatedInfo);
-	    return "member/updatedInfo"; // 수정된 정보를 보여줄 뷰 페이지
-	}
-	
-	
+		
 //	 탈퇴
 //	@RequestMapping("/out")
 //	public String out(HttpSession session) {
