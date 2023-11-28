@@ -59,7 +59,8 @@ $(function(){
 <div layout:fragment="content">
 <div id="container">
 <h1>회원정보 상세보기</h1>
-	<form onsubmit="return updateEX()" action="/user/edit" method="post" th:object="${UpdateUserCommand}" enctype="multipart/form-data">
+	<form onsubmit="return updateEX()" action="/user/userUpdate" method="post" th:object="${UpdateUserCommand}" enctype="multipart/form-data">
+		<input type="hidden" th:field="*{memberId}" th:value="${session.mdto.memberId}"/>
 		<table class="table">
 			<tr>
 				<th>아이디:</th>
@@ -79,21 +80,6 @@ $(function(){
 				</td>
 			</tr>
 			<tr>
-				<th>파일 [[${#lists.size(dto.fileBoardDto)}]]</th>
-				<th:block th:if="${dto.fileBoardDto[0].origin_filename==null}">
-					<td>첨부파일없음</td>
-				</th:block>
-				<th:block th:unless="${dto.fileBoardDto[0].origin_filename==null}">
-					<td>
-						<th:block th:each="fdto:${dto.fileBoardDto}">
-							<span class="glyphicon glyphicon-folder-open"></span>
-							<a th:text="${fdto.origin_filename}"
-							   th:href="@{/member/download(file_seq=${fdto.file_seq})}" ></a>&nbsp;&nbsp;
-						</th:block>
-					</td>
-				</th:block>
-			</tr>
-			<tr>
 				<th>이메일:</th>
 				<td><input th:field="*{email}" type="email" 
 				              class="form-control" name="email" />
@@ -103,16 +89,11 @@ $(function(){
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" value="수정완료" class="btn"/>
+					<button type="submit" class="btn">수정</button>
+<!--					<button type="button" class="btn"-->
+<!--					 th:onclick="|location.href='@{/user/mulDel(seq=${mdto.memberId})}'|">삭제</button>-->
 				</td>
 			</tr>
-			<tr>
-			<td colspan="2">
-				<button type="submit" class="btn">수정</button>
-				<button type="button" class="btn"
-				 th:onclick="|location.href='@{/board/mulDel(seq=${dto.board_seq})}'|">탈퇴</button>
-			</td>
-		</tr>
 		</table>
 	</form>
 </div>

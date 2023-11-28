@@ -5,7 +5,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -140,30 +143,6 @@ public class MemberController {
 
 	    return path;
 	}
-	//
-	
-	//로그인 폼 이동
-//	@GetMapping(value = "/login")
-//	public String loginForm(Model model) {
-//		model.addAttribute("loginCommand",new LoginCommand());
-//		return "member/login";
-//	}
-//	
-//	//로그인 실행
-//	@PostMapping(value = "/login")
-//	public String login(@Validated LoginCommand loginCommand
-//						,BindingResult result
-//						,Model model
-//						,HttpServletRequest request) {
-//		if(result.hasErrors()) {
-//			System.out.println("로그인 유효값 오류");
-//			return "member/login";
-//		}
-//		
-//		String path=memberService.login(loginCommand, request, model);
-//		
-//		return path;
-//	}
 	
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request) {
@@ -173,45 +152,55 @@ public class MemberController {
 	}
 
 	//내정보조회
-	@GetMapping(value = "/UserDetail")
-	public String updateUserForm(int memberId, Model model) {
-//		System.out.println("회원정보 수정폼");
-		MemberDto dto=memberService.getUser(memberId);
-		
-		//유효값처리용
-		model.addAttribute("UpdateUserCommand",new UpdateUserCommand());
-		//출력용
-		model.addAttribute(dto);		
-		System.out.println(dto);		
-		return "member/userDetail";
+//	@GetMapping(value = "/userDetail")
+//	public String userDetail(int memberId, Model model) {
+//
+//		MemberDto dto=memberService.getUserInfo(memberId);
+//		
+//		//유효값처리용
+//		model.addAttribute("UpdateUserCommand",new UpdateUserCommand());
+//		//출력용
+//		model.addAttribute("dto",dto);		
+//		System.out.println(dto);		
+//		return "member/userDetail";
+//	}
+	
+	@GetMapping(value = "/userDetail")
+	public String userDetail(@RequestParam(name = "memberId", defaultValue = "1") int memberId, Model model) {
+	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	    if (principal instanceof MemberDto) {
+	        memberId = ((MemberDto) principal).getMemberId();
+	    } else if (principal instanceof String) {
+	        // String 타입인 경우, 적절한 로직으로 MemberDto를 조회
+	        // 예: memberId를 사용하여 MemberDto를 데이터베이스에서 조회
+	        // memberId가 실제로는 String 타입이고, 문자열로 변환해서 사용
+	        // 예: memberId = Integer.parseInt((String) principal);
+	    }
+
+	    MemberDto dto = memberService.getUserInfo(memberId);
+
+	    // 유효값처리용
+	    model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
+	    // 출력용
+	    model.addAttribute("dto", dto);
+	    System.out.println(dto);
+	    return "member/userDetail";
 	}
 	
 	//내정보수정
-	@PostMapping("/edit")
-	public String updateUser(@Validated UpdateUserCommand updateUserCommand,
-						   BindingResult result) {
+	@PostMapping(value = "/userUpdate")
+	public String userUpdate(@Validated UpdateUserCommand updateUserCommand
+							,BindingResult result) {
+
 		if(result.hasErrors()) {
-			System.out.println("수정할 정보를 모두 입력하세요");
+			System.out.println("수정할 내용을 모두 입력하세요");
 			return "member/userDetail";
 		}
-		memberService.updateUser(updateUserCommand);
 		
-		return "redirect:/member/userDetail?memberId="+updateUserCommand.getMemberId();
+		memberService.updateUser(updateUserCommand);
+		return "redirect:/userDetail";
 	}
-	
-//	@GetMapping("/edit") // 내정보보기
-//	public void updateUserForm(HttpServletRequest request, Model model) {
-//		session.removeAttribute("msg"); // 로그인성공 메시지 초기화
-//		String id = (String) session.getAttribute("loginId");
-//		MemberVo vo = service.getMember(id);
-//		map.addAttribute("vo", vo);
-//	}
-//
-//	@PostMapping("/edit") // 수정
-//	public String edit(MemberVo vo) {
-//		service.editMember(vo);
-//		return "redirect:/member/edit";
-//	}
 	
 //	 탈퇴
 //	@RequestMapping("/out")

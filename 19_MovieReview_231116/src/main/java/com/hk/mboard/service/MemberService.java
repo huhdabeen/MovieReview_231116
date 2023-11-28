@@ -83,7 +83,6 @@ public class MemberService {
 		return memberMapper.nameChk(name);
 	}
 	
-	//
     public String login(LoginCommand loginCommand, HttpServletRequest request, Model model) {
         MemberDto dto = memberMapper.loginUser(loginCommand.getId());
         String path = "home";
@@ -115,41 +114,16 @@ public class MemberService {
 
         return path;
     }
-	//
-    
-//	public String login(LoginCommand loginCommand
-//						,HttpServletRequest request
-//						,Model model) {
-//		MemberDto dto=memberMapper.loginUser(loginCommand.getId());
-//		String path="home";
-//		if(dto!=null) {
-//			//로그인 폼에서 입력받은 패스워드값과 DB에 암호화된 패스워드 비교
-//			if(passwordEncoder.matches(loginCommand.getPassword(),dto.getPassword())) {
-//				System.out.println("패스워드 같음: 회원이 맞음");
-//				request.getSession().setAttribute("mdto", dto);
-//				return path;
-//			}else {
-//				System.out.println("패스워드 틀림");
-//				model.addAttribute("msg","패스워드를 확인하세요.");
-//				path="member/login";
-//			}
-//		}else {
-//			System.out.println("회원이 아닙니다.");
-//			model.addAttribute("msg","아이디를 확인하세요.");
-//			path="member/login";
-//		}
-//		return path;
-//	}
 
     //회원상세
-    public MemberDto getUser(int memberId) {
-    	return memberMapper.getUserInfo(memberId);
-    }
+	public MemberDto getUserInfo(int memberId) {
+		return memberMapper.getUserInfo(memberId);
+	}
     
     //회원정보수정하기
     public boolean updateUser(UpdateUserCommand updateUserCommand) {
     	MemberDto dto=new MemberDto();
-    	//dto.setMemberId(updateUserCommand.getMemberId());
+    	dto.setMemberId(updateUserCommand.getMemberId());
     	dto.setName(updateUserCommand.getName());
     	dto.setEmail(updateUserCommand.getEmail());   	
     	return memberMapper.updateUser(dto);
@@ -158,6 +132,8 @@ public class MemberService {
 	public boolean delUser(MemberDto dto) {
 		return memberMapper.delUser(dto);
 	}
+	
     
+	
 
 }
