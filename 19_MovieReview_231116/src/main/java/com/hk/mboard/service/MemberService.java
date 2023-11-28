@@ -93,7 +93,7 @@ public class MemberService {
 
                 // 세션에 사용자 정보 저장
                 request.getSession().setAttribute("mdto", dto);
-
+                System.out.println(dto);
                 // 사용자가 등록한 프로필 이미지 정보 조회
                 if (dto.getFile_seq() != 0) {
                     FileDto userImage = fileService.getFileInfo(dto.getFile_seq());
@@ -121,17 +121,32 @@ public class MemberService {
 	}
     
     //회원정보수정하기
-    public boolean updateUser(UpdateUserCommand updateUserCommand) {
-    	MemberDto dto=new MemberDto();
-    	dto.setMemberId(updateUserCommand.getMemberId());
-    	dto.setName(updateUserCommand.getName());
-    	dto.setEmail(updateUserCommand.getEmail());   	
-    	return memberMapper.updateUser(dto);
-    }
-    
-	public boolean delUser(MemberDto dto) {
-		return memberMapper.delUser(dto);
+	@Transactional
+	public boolean updateUser(UpdateUserCommand updateUserCommand) {
+	    MemberDto dto = new MemberDto();
+	    dto.setMemberId(updateUserCommand.getMemberId());
+	    dto.setName(updateUserCommand.getName());
+	    dto.setEmail(updateUserCommand.getEmail());
+
+	    try {
+	        // 실제로 회원 정보를 수정하는 쿼리 호출
+	        boolean updateResult = memberMapper.updateUser(dto);
+
+	        if (updateResult) {
+	            System.out.println("회원 정보가 성공적으로 업데이트되었습니다.");
+	        } else {
+	            System.out.println("회원 정보 업데이트에 실패했습니다.");
+	        }
+
+	        return updateResult;
+	    } catch (Exception e) {
+	        // 예외 발생 시 로그에 출력
+	        System.out.println("회원 정보 업데이트 중 예외 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
+
 	
     
 	

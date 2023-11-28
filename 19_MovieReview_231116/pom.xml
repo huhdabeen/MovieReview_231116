@@ -143,7 +143,22 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-aop</artifactId>
       </dependency>
+      <!-- SLF4J 로깅 API -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>2.0.9</version> <!-- 현재 사용 가능한 최신 버전으로 업데이트 -->
+	</dependency>
+	
+	<!-- Logback 로깅 구현체 -->
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	    <version>1.4.11</version> <!-- 현재 사용 가능한 최신 버전으로 업데이트 -->
+	</dependency>
+
    </dependencies>
+   
 
    <build>
       <plugins>

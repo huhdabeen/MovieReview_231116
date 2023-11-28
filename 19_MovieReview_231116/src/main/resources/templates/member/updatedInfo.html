@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<div id="container">
+<h1>회원정보</h1>
+	<form onsubmit="return updateEX()" action="/user/userUpdate" method="post" th:object="${UpdateUserCommand}" enctype="multipart/form-data">
+	<input type="hidden" name="memberId" th:value="${session.mdto.memberId}" />
+            <table class="table">
+                <tr>
+                    <th>아이디:</th>
+                    <td th:text="${session.mdto.id}"></td>
+                </tr>
+                <tr>
+                    <th>등급:</th>
+                    <td th:text="${session.mdto.role}"></td>
+                </tr>
+                <tr>
+                    <th>닉네임:</th>
+                    <td th:text="${session.mdto.name}"></td>
+                </tr>
+                <tr>
+                    <th>이메일:</th>
+                    <td th:text="${session.mdto.email}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a href="/user/userDetail" class="btn">돌아가기</a>
+                    </td>
+                </tr>
+            </table>
+</div>
+</div>
+</body>
+</html>

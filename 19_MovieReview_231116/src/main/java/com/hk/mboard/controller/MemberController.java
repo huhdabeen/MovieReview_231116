@@ -151,20 +151,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	//내정보조회
-//	@GetMapping(value = "/userDetail")
-//	public String userDetail(int memberId, Model model) {
-//
-//		MemberDto dto=memberService.getUserInfo(memberId);
-//		
-//		//유효값처리용
-//		model.addAttribute("UpdateUserCommand",new UpdateUserCommand());
-//		//출력용
-//		model.addAttribute("dto",dto);		
-//		System.out.println(dto);		
-//		return "member/userDetail";
-//	}
-	
+	//내정보조회	
 	@GetMapping(value = "/userDetail")
 	public String userDetail(@RequestParam(name = "memberId", defaultValue = "1") int memberId, Model model) {
 	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -184,23 +171,44 @@ public class MemberController {
 	    model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
 	    // 출력용
 	    model.addAttribute("dto", dto);
-	    System.out.println(dto);
+	    System.out.println("Received memberId: " + memberId); // 로그 추가
+//	    System.out.println(dto);
 	    return "member/userDetail";
 	}
-	
-	//내정보수정
-	@PostMapping(value = "/userUpdate")
-	public String userUpdate(@Validated UpdateUserCommand updateUserCommand
-							,BindingResult result) {
 
-		if(result.hasErrors()) {
-			System.out.println("수정할 내용을 모두 입력하세요");
-			return "member/userDetail";
-		}
-		
-		memberService.updateUser(updateUserCommand);
-		return "redirect:/userDetail";
+	// 내정보수정
+	@PostMapping(value = "/userUpdate")
+	public String userUpdate(@Validated UpdateUserCommand updateUserCommand,
+	                         BindingResult result,
+	                         HttpServletRequest request,
+	                         Model model) {
+	    if (result.hasErrors()) {
+	        System.out.println("수정할 내용을 모두 입력하세요");
+	        model.addAttribute("dto", updateUserCommand);
+	        return "member/userDetail";
+	    }
+
+	    System.out.println("Received UpdateUserCommand: " + updateUserCommand);
+
+	    memberService.updateUser(updateUserCommand);
+	    // 수정: memberId를 쿼리스트링으로 넘기는 대신, 세션에서 직접 읽어오도록 수정
+	    MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
+	    if (loggedInUser != null) {
+	        return "redirect:/userUpdatedInfo?memberId=" + updateUserCommand.getMemberId();
+	    } else {
+	        // 세션에 사용자 정보가 없는 경우의 예외 처리
+	        return "redirect:/"; // 또는 적절한 경로로 이동
+	    }
 	}
+	
+	// 회원 정보 수정 후 수정된 정보를 조회하는 메서드
+	@GetMapping("/userUpdatedInfo")
+	public String userUpdatedInfo(@RequestParam("memberId") int memberId, Model model) {
+	    MemberDto updatedInfo = memberService.getUserInfo(memberId);
+	    model.addAttribute("updatedInfo", updatedInfo);
+	    return "member/updatedInfo"; // 수정된 정보를 보여줄 뷰 페이지
+	}
+	
 	
 //	 탈퇴
 //	@RequestMapping("/out")

@@ -3,10 +3,15 @@
 
 <mapper namespace="com.hk.mboard.mapper.MemberMapper">
 	
-	<insert id="addUser" parameterType="memberDto"
-		useGeneratedKeys="true" keyProperty="memberid">
-		INSERT INTO MRMEMBER
-		VALUES(NULL,#{id},#{password},#{name},#{email},#{role})
+<!-- 	<insert id="addUser" parameterType="memberDto" -->
+<!-- 		useGeneratedKeys="true" keyProperty="memberid"> -->
+<!-- 		INSERT INTO MRMEMBER -->
+<!-- 		VALUES(NULL,#{id},#{password},#{name},#{email},#{role}) -->
+<!-- 	</insert> -->
+	
+	<insert id="addUser" parameterType="memberDto" useGeneratedKeys="true" keyProperty="memberId">
+    INSERT INTO MRMEMBER 
+    VALUES(NULL,#{id},#{password},#{name},#{email},#{role})
 	</insert>
 	
 	<select id="idChk" parameterType="String" resultType="String">
@@ -40,7 +45,7 @@
 	<update id="updateUser" parameterType="memberDto">
 	  UPDATE mrmember
 	  SET NAME=#{name}, email=#{email}
-	  WHERE ID=#{id}
+	  WHERE MEMBERID=#{memberId}
 	</update>
 	
 	<!-- 	6.회원탈퇴하기 -->

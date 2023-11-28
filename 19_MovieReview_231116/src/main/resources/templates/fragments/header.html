@@ -39,7 +39,9 @@
     		</th:block>
 <!--    		<th:block>-->
 <!--            	<a th:href="@{/user/userDetail(memberId=${mdto.memberId})}" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;-->
-			<a href="/user/userDetail" method="post" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;
+<!--			<a href="/user/userDetail" method="post" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;-->
+			 <a th:href="@{'/user/userDetail?memberId=' + ${session.mdto.memberId}}"
+                           th:text="${session.mdto.name + '님'}" method="post" style="color: pink"></a>&nbsp;&nbsp;
 			<a href="#" style="color: pink">게시글 관리</a>&nbsp;&nbsp;
 			<a href="/user/logout" style="color: pink">로그아웃</a>
 <!--            </th:block>-->
