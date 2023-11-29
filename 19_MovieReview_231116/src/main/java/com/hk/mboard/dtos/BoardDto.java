@@ -11,6 +11,7 @@ import lombok.Data;
 @Alias(value = "boardDto") //mapper.xml에서 사용하는 변수명 설정
 public class BoardDto {
 	
+	private int review_seq;
 	private int board_seq;
 	private String genre_nm;
 	private String movie_nm;
@@ -19,19 +20,23 @@ public class BoardDto {
 	private String name;
 	private Date regdate;
 	private String delflag;
-	private String spoflag;
+
 	
 	//Join용 멤버필드 
 	private List<MovieInfoDto> miBoardDto;
+	
+	//Join용 멤버필드 
+	private List<MemberDto> memberDto;
 
 	public BoardDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public BoardDto(int board_seq, String genre_nm, String movie_nm, String title, String content, String name,
-			Date regdate, String delflag, String spoflag, List<MovieInfoDto> miBoardDto) {
+	public BoardDto(int review_seq, int board_seq, String genre_nm, String movie_nm, String title, String content,
+			String name, Date regdate, String delflag, List<MovieInfoDto> miBoardDto, List<MemberDto> memberDto) {
 		super();
+		this.review_seq = review_seq;
 		this.board_seq = board_seq;
 		this.genre_nm = genre_nm;
 		this.movie_nm = movie_nm;
@@ -40,15 +45,16 @@ public class BoardDto {
 		this.name = name;
 		this.regdate = regdate;
 		this.delflag = delflag;
-		this.spoflag = spoflag;
 		this.miBoardDto = miBoardDto;
+		this.memberDto = memberDto;
 	}
 
-	@Override
-	public String toString() {
-		return "BoardDto [board_seq=" + board_seq + ", genre_nm=" + genre_nm + ", movie_nm=" + movie_nm + ", title="
-				+ title + ", content=" + content + ", name=" + name + ", regdate=" + regdate + ", delflag=" + delflag
-				+ ", spoflag=" + spoflag + ", miBoardDto=" + miBoardDto + "]";
+	public int getReview_seq() {
+		return review_seq;
+	}
+
+	public void setReview_seq(int review_seq) {
+		this.review_seq = review_seq;
 	}
 
 	public int getBoard_seq() {
@@ -115,14 +121,6 @@ public class BoardDto {
 		this.delflag = delflag;
 	}
 
-	public String getSpoflag() {
-		return spoflag;
-	}
-
-	public void setSpoflag(String spoflag) {
-		this.spoflag = spoflag;
-	}
-
 	public List<MovieInfoDto> getMiBoardDto() {
 		return miBoardDto;
 	}
@@ -130,6 +128,22 @@ public class BoardDto {
 	public void setMiBoardDto(List<MovieInfoDto> miBoardDto) {
 		this.miBoardDto = miBoardDto;
 	}
-	
+
+	public List<MemberDto> getMemberDto() {
+		return memberDto;
+	}
+
+	public void setMemberDto(List<MemberDto> memberDto) {
+		this.memberDto = memberDto;
+	}
+
+	@Override
+	public String toString() {
+		return "BoardDto [review_seq=" + review_seq + ", board_seq=" + board_seq + ", genre_nm=" + genre_nm
+				+ ", movie_nm=" + movie_nm + ", title=" + title + ", content=" + content + ", name=" + name
+				+ ", regdate=" + regdate + ", delflag=" + delflag + ", miBoardDto=" + miBoardDto + ", memberDto="
+				+ memberDto + "]";
+	}
+
 	
 }

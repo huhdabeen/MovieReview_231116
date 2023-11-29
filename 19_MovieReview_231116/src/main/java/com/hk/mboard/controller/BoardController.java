@@ -67,6 +67,16 @@ public class BoardController {
 		return "board/boardInsertForm";
 	}
 	
+	//
+//	@GetMapping(value = "/movieList")
+//	@ResponseBody
+//	public Map<String, List<MovieInfoDto>> movieListMap(String movie_nm) {
+//	    Map<String, List<MovieInfoDto>> map = new HashMap<>();
+//	    List<MovieInfoDto> mlist = boardService.movieAllList(movie_nm);
+//	    map.put("mlist", mlist);
+//	    return map;
+//	}
+	
 	@PostMapping(value = "/boardInsert")
 	public String boardInsert(@Validated InsertBoardCommand insertBoardCommand 
 			                ,BindingResult result

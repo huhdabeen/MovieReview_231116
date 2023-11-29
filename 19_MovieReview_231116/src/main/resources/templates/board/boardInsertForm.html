@@ -7,12 +7,7 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 
-	function spoSel(bool){
-	    var spochk=document.getElementsByName("spo");// [seq,seq,seq,seq..]
-	    for (var i = 0; i < spochk.length; i++) {
-	       spochk[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
-	    }
-	 }
+
 
 // $.ajax() ---> list 가져와서 for --> txt="<option value='aaa'/><option value='aaa'/><option value='aaa'/>"
 // $("datalist").html(txt)
@@ -68,14 +63,10 @@ $(function(){
 		<tr>
 			<th>영화제목</th>
 			<td>
-				<input type="text" name="movie_nm" id="autoComplete" list="movie_options"/>
+				<input type="text" name="movie_nm" id="autoComplete" list="movie_options" class="form-control"/>
 				<datalist id="movie_options">
 				</datalist>
 			</td>
-		</tr>
-		<tr>
-			<th>스포</th>
-			<input type="checkbox" name="spo" onclick="spoSel(this.checked)" />
 		</tr>
 		<tr>
 			<th>제목</th>
