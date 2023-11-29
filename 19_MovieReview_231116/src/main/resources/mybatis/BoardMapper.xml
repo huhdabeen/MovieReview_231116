@@ -4,6 +4,7 @@
 <mapper namespace="com.hk.mboard.mapper.BoardMapper">
 
    <resultMap type="boardDto" id="boardDtoMap">
+   	  <id property="review_seq"    column="REVIEW_SEQ" />
       <id property="board_seq"    column="BOARD_SEQ" />
       <id property="name"       column="NAME" />
       <id property="title"       column="TITLE" />
@@ -23,15 +24,15 @@
    </resultMap>
 
 	<select id="getAllList" resultType="boardDto">
-		SELECT BOARD_SEQ, GENRE_NM, MOVIE_NM, TITLE, CONTENT,NAME, REGDATE
+		SELECT REVIEW_SEQ, BOARD_SEQ, GENRE_NM, MOVIE_NM, TITLE, CONTENT,NAME, REGDATE
 		FROM RVBOARD
 		WHERE DELFLAG='N'
 		ORDER BY REGDATE DESC
 	</select>
 	
 	<select id="getBoard" parameterType="Integer" resultMap="boardDtoMap">
-		SELECT R.BOARD_SEQ, M.GENRE_NM, M.MOVIE_NM, M.NLTY_NM, M.GRAD_NM
-			   , M.OPN, R.TITLE, R.CONTENT, R.NAME, R.REGDATE, R.SPOFLAG
+		SELECT R.REVIEW_SEQ, R.BOARD_SEQ, M.GENRE_NM, M.MOVIE_NM, M.NLTY_NM, M.GRAD_NM
+			   , M.OPN, R.TITLE, R.CONTENT, R.NAME, R.REGDATE
 		FROM RVBOARD R JOIN MOVIEINFO3 M
 		ON R.BOARD_SEQ = M.MOVIE_SEQ
 	</select>
@@ -45,7 +46,7 @@
 	<!-- 	useGeneratedKeys="true" keyProperty="board_seq"
         : 증가된 board_seq값을 BoardDto에 전달 : insertBoard(boardDto) -->
 	<insert id="insertBoard" parameterType="boardDto"
-		useGeneratedKeys="true" keyProperty="board_seq">
+		useGeneratedKeys="true" keyProperty="review_seq">
 		INSERT INTO RVBOARD
 		VALUES(NULL,#{board_seq},#{genre_nm}, #{movie_nm}, #{title}, #{content}, #{name}, sysdate(), 'N')
 	</insert>

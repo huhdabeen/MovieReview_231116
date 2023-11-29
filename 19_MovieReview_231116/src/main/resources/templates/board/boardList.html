@@ -12,13 +12,7 @@
          chks[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
       }
    }
-   
-   function spoSel(bool){
-	      var spochk=document.getElementsByName("spo");// [seq,seq,seq,seq..]
-	      for (var i = 0; i < spochk.length; i++) {
-	         spochk[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
-	      }
-	   }
+  
    
    function isCheck(){
       if(confirm("정말 삭제 하시겠습니까?")){
@@ -40,12 +34,15 @@
 <div layout:fragment="content">
 <div id="container">
 <h1 stlye="font-size:15px">게시판 목록</h1>
-<div>스포&nbsp;<input type="checkbox" name="spo" onclick="spoSel(this.checked)" /></div>
+<!--<div>스포&nbsp;<input type="checkbox" name="spo" onclick="spoSel(this.checked)" /></div>-->
 <form action="/board/mulDel" method="post" th:object="${delBoardCommand}">
    <table class="table">
-      <tr>
-         <th><input type="checkbox" name="all" 
-                              onclick="allSel(this.checked)" /></th>
+    	
+      		<button style = "margin-left:900px; margin-bottom:10px;" type="button" class="btn" th:onclick="|location.href='@{/board/boardInsert}'|" >글추가</button>
+      	
+      <tr >
+	
+         <th><input type="checkbox" name="all" onclick="allSel(this.checked)" /></th>
          <th>장르</th>
          <th>영화제목</th>
          <th>제목</th>
@@ -73,7 +70,7 @@
          </tr>
          <tr>
             <td colspan="6">
-               <button type="button" class="btn" th:onclick="|location.href='@{/board/boardInsert}'|">글추가</button>
+               
                <button type="submit" class="btn">삭제</button>
                <span th:if="${#fields.hasErrors('seq')}"
                      th:errors="*{seq}"></span>

@@ -40,13 +40,17 @@
                 <td th:text="${dto.email}"></td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <button type="button" class="btn" th:onclick="|location.href='@{/user/updatedInfo}'|">수정</button>	
-                	<form action="/user/delUser" method="get" onsubmit="return delUserEX()">
-    					<button type="submit" class="btn">탈퇴</button>
-					</form>
-                </td>
-            </tr>
+			    <td colspan="2">
+			        <span style="display: inline-block;">
+			            <button type="button" class="btn" th:onclick="|location.href='@{/user/updatedInfo}'|">수정</button>
+			        </span>
+			        <span style="display: inline-block;">
+			            <form action="/user/delUser" method="get" onsubmit="return delUserEX()">
+			                <button type="submit" class="btn">탈퇴</button>
+			            </form>
+			        </span>
+			    </td>
+			</tr>
         </table>
     </div>
 </div>
