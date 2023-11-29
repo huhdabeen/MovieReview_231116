@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class UpdateBoardCommand {
 	
-	private int board_seq;
+	private int review_seq;
 	@NotBlank(message = "제목을 입력하세요")
 	private String title;
 	@NotBlank(message = "내용을 입력하세요")
@@ -15,20 +15,25 @@ public class UpdateBoardCommand {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UpdateBoardCommand(int board_seq, @NotBlank(message = "제목을 입력하세요") String title,
+	public UpdateBoardCommand(int review_seq, @NotBlank(message = "제목을 입력하세요") String title,
 			@NotBlank(message = "내용을 입력하세요") String content) {
 		super();
-		this.board_seq = board_seq;
+		this.review_seq = review_seq;
 		this.title = title;
 		this.content = content;
 	}
 
-	public int getBoard_seq() {
-		return board_seq;
+	@Override
+	public String toString() {
+		return "UpdateBoardCommand [review_seq=" + review_seq + ", title=" + title + ", content=" + content + "]";
 	}
 
-	public void setBoard_seq(int board_seq) {
-		this.board_seq = board_seq;
+	public int getReview_seq() {
+		return review_seq;
+	}
+
+	public void setReview_seq(int review_seq) {
+		this.review_seq = review_seq;
 	}
 
 	public String getTitle() {
@@ -46,11 +51,8 @@ public class UpdateBoardCommand {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	@Override
-	public String toString() {
-		return "UpdateBoardCommand [board_seq=" + board_seq + ", title=" + title + ", content=" + content + "]";
-	}
+	
+	
 	
 	
 }

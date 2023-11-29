@@ -65,7 +65,7 @@ public class BoardService {
 	public boolean updateBoard(UpdateBoardCommand updateBoardCommand) {
 		//command:UI ---> DTO:DB 
 		BoardDto dto=new BoardDto();
-		dto.setBoard_seq(updateBoardCommand.getBoard_seq());
+		dto.setReview_seq(updateBoardCommand.getReview_seq());
 		dto.setTitle(updateBoardCommand.getTitle());
 		dto.setContent(updateBoardCommand.getContent());
 		return boardMapper.updateBoard(dto);

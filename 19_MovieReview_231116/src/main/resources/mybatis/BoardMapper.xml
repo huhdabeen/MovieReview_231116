@@ -51,11 +51,11 @@
 		VALUES(NULL,#{board_seq},#{genre_nm}, #{movie_nm}, #{title}, #{content}, #{name}, sysdate(), 'N')
 	</insert>
 	
-<!-- 	<update id="updateBoard" parameterType="boardDto"> -->
-<!-- 		UPDATE TESTBOARD -->
-<!-- 		SET TITLE=#{title}, CONTENT=#{content} -->
-<!-- 		WHERE BOARD_SEQ=#{board_seq} -->
-<!-- 	</update> -->
+	<update id="updateBoard" parameterType="boardDto">
+		UPDATE RVBOARD
+		SET TITLE=#{title}, CONTENT=#{content}
+		WHERE REVIEW_SEQ=#{review_seq}
+	</update>
 	
 <!-- 	<update id="mulDel" parameterType="Map"> -->
 <!-- 		UPDATE TESTBOARD SET DELFLAG = 'Y' WHERE BOARD_SEQ IN -->

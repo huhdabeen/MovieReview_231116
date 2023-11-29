@@ -120,8 +120,8 @@ public class BoardController {
 		
 		boardService.updateBoard(updateBoardCommand);
 		
-		return "redirect:/board/boardDetail?board_seq="
-				+ updateBoardCommand.getBoard_seq();
+		return "redirect:/board/boardDetail?review_seq="
+				+ updateBoardCommand.getReview_seq();
 	}
 	
 	@GetMapping(value = "/download")
