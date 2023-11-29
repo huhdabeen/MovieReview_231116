@@ -151,20 +151,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-<<<<<<< HEAD
-	//내정보조회
-	@GetMapping(value = "/edit")
-	public String updateUserForm(int memberId, Model model) {
-//		System.out.println("회원정보 수정폼");
-		MemberDto dto=memberService.getUser(memberId);
-		
-		//유효값처리용
-		model.addAttribute("UpdateUserCommand",new UpdateUserCommand());
-		//출력용
-		model.addAttribute(dto);		
-		System.out.println(dto);		
-		return "member/userDetail";
-=======
 	
 	//내정보조회	
 	@GetMapping(value = "/userDetail")
@@ -197,7 +183,6 @@ public class MemberController {
 		model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
 		System.out.println("내정보수정폼 가기");
 		return "member/updatedInfo";
->>>>>>> branch 'main' of https://github.com/huhdabeen/MovieReview_231116.git
 	}
 	
 	//내정보수정
