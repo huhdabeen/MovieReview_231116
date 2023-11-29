@@ -33,11 +33,11 @@
      </br>
        <th:block th:unless="${session.mdto==null}">
 		<p style="text-align: right;">
-<!--			<img th:if="${fDto != null}" th:src="@{'/upload/' + ${fDto.stored_filename}}" alt="유저 이미지" style="max-width: 15px; height: 15px;"/>-->
 		    <th:block th:if="${userImage != null}">
-        		<img th:src="@{'/upload/' + ${userImage.stored_filename}}" alt="User Image" style="max-width: 15px; height: 15px;"/>
+        		<img th:src="@{'/upload/' + ${userImage.stored_filename}}" alt="User Image" style="max-width: 25px; height: 25px;"/>
     		</th:block>
-			<a href="/user/edit" th:text="${session.mdto.name + '님'}" style="color: pink"></a>&nbsp;&nbsp;
+			<a th:href="@{'/user/userDetail?memberId=' + ${session.mdto.memberId}}"
+                           th:text="${session.mdto.name + '님'}" method="post" style="color: pink"></a>&nbsp;&nbsp;
 			<a href="#" style="color: pink">게시글 관리</a>&nbsp;&nbsp;
 			<a href="/user/logout" style="color: pink">로그아웃</a>
 		</p>

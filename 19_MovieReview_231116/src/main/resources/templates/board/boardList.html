@@ -29,14 +29,17 @@
 </script>
 <style type="text/css">
 .table{
-	font-size:20px;
+	font-size:15px;
+}
+#contianer{
+	font-size:15px;
 }
 </style>
 </head>
 <body>
 <div layout:fragment="content">
 <div id="container">
-<h1>게시판 목록</h1>
+<h1 stlye="font-size:15px">게시판 목록</h1>
 <div>스포&nbsp;<input type="checkbox" name="spo" onclick="spoSel(this.checked)" /></div>
 <form action="/board/mulDel" method="post" th:object="${delBoardCommand}">
    <table class="table">

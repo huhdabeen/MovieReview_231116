@@ -5,7 +5,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -140,30 +143,6 @@ public class MemberController {
 
 	    return path;
 	}
-	//
-	
-	//로그인 폼 이동
-//	@GetMapping(value = "/login")
-//	public String loginForm(Model model) {
-//		model.addAttribute("loginCommand",new LoginCommand());
-//		return "member/login";
-//	}
-//	
-//	//로그인 실행
-//	@PostMapping(value = "/login")
-//	public String login(@Validated LoginCommand loginCommand
-//						,BindingResult result
-//						,Model model
-//						,HttpServletRequest request) {
-//		if(result.hasErrors()) {
-//			System.out.println("로그인 유효값 오류");
-//			return "member/login";
-//		}
-//		
-//		String path=memberService.login(loginCommand, request, model);
-//		
-//		return path;
-//	}
 	
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request) {
@@ -172,6 +151,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
+<<<<<<< HEAD
 	//내정보조회
 	@GetMapping(value = "/edit")
 	public String updateUserForm(int memberId, Model model) {
@@ -184,43 +164,93 @@ public class MemberController {
 		model.addAttribute(dto);		
 		System.out.println(dto);		
 		return "member/userDetail";
+=======
+	
+	//내정보조회	
+	@GetMapping(value = "/userDetail")
+	public String userDetail(@RequestParam(name = "memberId", defaultValue = "1") int memberId, Model model) {
+	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	    if (principal instanceof MemberDto) {
+	        memberId = ((MemberDto) principal).getMemberId();
+	    } else if (principal instanceof String) {
+	        // String 타입인 경우, 적절한 로직으로 MemberDto를 조회
+	        // 예: memberId를 사용하여 MemberDto를 데이터베이스에서 조회
+	        // memberId가 실제로는 String 타입이고, 문자열로 변환해서 사용
+	        // 예: memberId = Integer.parseInt((String) principal);
+	    }
+
+	    MemberDto dto = memberService.getUserInfo(memberId);
+
+	    // 유효값처리용
+	    model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
+	    // 출력용
+	    model.addAttribute("dto", dto);
+	    System.out.println("Received memberId: " + memberId); // 로그 추가
+//	    System.out.println(dto);
+	    return "member/userDetail";
+	}
+
+	//내정포수정폼
+	@GetMapping(value = "/updatedInfo")
+	public String userUpdateForm(Model model) {
+		model.addAttribute("UpdateUserCommand", new UpdateUserCommand());
+		System.out.println("내정보수정폼 가기");
+		return "member/updatedInfo";
+>>>>>>> branch 'main' of https://github.com/huhdabeen/MovieReview_231116.git
 	}
 	
 	//내정보수정
-	@PostMapping("/edit")
-	public String updateUser(@Validated UpdateUserCommand updateUserCommand,
-						   BindingResult result) {
-		if(result.hasErrors()) {
-			System.out.println("수정할 정보를 모두 입력하세요");
-			return "member/userDetail";
-		}
-		memberService.updateUser(updateUserCommand);
-		
-		return "redirect:/member/userDetail?memberId="+updateUserCommand.getMemberId();
+	@PostMapping(value = "/userUpdatedInfo")
+	public String userUpdate(@Validated UpdateUserCommand updateUserCommand,
+	                         BindingResult result,
+	                         HttpServletRequest request,
+	                         Model model) {
+	    if (result.hasErrors()) {
+	        System.out.println("수정할 내용을 모두 입력하세요");
+	        model.addAttribute("dto", updateUserCommand);
+	        return "member/updatedInfo";
+	    }
+
+	    System.out.println("받은 UpdateUserCommand: " + updateUserCommand);
+
+	    memberService.updateUser(updateUserCommand);
+//	    return "redirect:/userDetail?memberId=" + updateUserCommand.getMemberId();
+
+	    // 수정: memberId를 쿼리스트링으로 넘기는 대신, 세션에서 직접 읽어오도록 수정
+	    MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
+	    if (loggedInUser != null) {
+	    	loggedInUser.setName(updateUserCommand.getName());
+	    	request.getSession().setAttribute("mdto", loggedInUser);
+	        return "redirect:/user/userDetail?memberId=" + loggedInUser.getMemberId();
+	    } else {
+	        // 세션에 사용자 정보가 없는 경우의 예외 처리
+	        return "redirect:/"; // 또는 적절한 경로로 이동
+	    }
 	}
-	
-//	@GetMapping("/edit") // 내정보보기
-//	public void updateUserForm(HttpServletRequest request, Model model) {
-//		session.removeAttribute("msg"); // 로그인성공 메시지 초기화
-//		String id = (String) session.getAttribute("loginId");
-//		MemberVo vo = service.getMember(id);
-//		map.addAttribute("vo", vo);
-//	}
-//
-//	@PostMapping("/edit") // 수정
-//	public String edit(MemberVo vo) {
-//		service.editMember(vo);
-//		return "redirect:/member/edit";
-//	}
-	
-//	 탈퇴
-//	@RequestMapping("/out")
-//	public String out(HttpSession session) {
-//		String id = (String) session.getAttribute("loginId");
-//		service.delMember(id);
-//		session.invalidate();
-//		//return "redirect:/member/logout";
-//		return "index";
-//	}
-	
+		
+	// 회원 탈퇴 처리
+    @GetMapping(value = "/delUser")
+    public String deleteUser(HttpServletRequest request) {
+        // 세션에서 현재 로그인한 회원의 정보를 가져옴
+        MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
+
+        if (loggedInUser != null) {
+            // 현재 로그인한 회원의 memberId를 가져와 회원 탈퇴 진행
+            boolean deleteResult = memberService.delUser(loggedInUser.getMemberId());
+
+            if (deleteResult) {
+                // 회원 탈퇴 성공 시 세션 무효화
+                request.getSession().invalidate();
+                return "redirect:/";
+            } else {
+                // 회원 탈퇴 실패 시 적절한 에러 페이지로 이동 또는 메시지 처리
+                return "redirect:/error";
+            }
+        } else {
+            // 로그인한 사용자 정보가 없는 경우의 예외 처리
+            return "redirect:/"; // 또는 적절한 경로로 이동
+        }
+    }
 }
+	

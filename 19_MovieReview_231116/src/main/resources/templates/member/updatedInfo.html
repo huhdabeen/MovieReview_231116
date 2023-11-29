@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+   <script type="text/javascript">
+        function updateEX() {
+            if (confirm("수정하시겠습니까?")) {
+                return true;
+            }
+            return false;
+        }
+
+        $(function () {
+            $("input[name=name]").on("keyup", function () {
+                var name = $(this).val();
+                $.ajax({
+                    url: "/user/nameChk",
+                    method: "get",
+                    dataType: "json",
+                    async: false,
+                    data: {"name": name},
+                    success: function (data) {
+                        if (data.name != null) {
+                            $("#nameChk").attr("class", "n")
+                                .css("color", "red")
+                                .text("사용할 수 없는 닉네임입니다.");
+                        } else {
+                            $("#nameChk").attr("class", "y")
+                                .css("color", "red")
+                                .text("사용 가능한 닉네임입니다.");
+                        }
+                    },
+                    error: function (e) {
+                        alert("통신오류:" + e);
+                    }
+                });
+            });
+        });
+
+        function submitChk() {
+            var classValue = $("#nameChk").attr("class");
+            if (classValue == "n") {
+                alert("닉네임을 확인하세요.");
+                return false;
+            }
+            return true;
+        }
+</script>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<div id="container">
+<h1>회원정보 수정하기</h1>
+   <form onsubmit="return updateEX()" action="/user/userUpdatedInfo" method="post" th:object="${UpdateUserCommand}" >
+      <input type="hidden" name="memberId" th:value="${session.mdto.memberId}" />
+      <table class="table">
+         <tr>
+            <th>아이디:</th>
+            <td th:text="${session.mdto.id}"></td>
+         </tr>
+         <tr>
+            <th>등급:</th>
+            <td th:text="${session.mdto.role}"></td>
+         </tr>
+         <tr>
+             <th>닉네임:</th>
+             <td>
+                 <input th:field="*{name}" type="text" class="form-control" name="name" />
+                 <span id="nameChk" class="n"></span>
+                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+             </td>
+         </tr>
+         <tr>
+             <th>이메일:</th>
+             <td>
+                 <input th:field="*{email}" type="email" class="form-control" name="email" />
+                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+             </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+                <button type="submit" class="btn">수정완료</button>
+<!--            <button type="submit" class="btn" th:onclick="|location.href='@{/user/updatedInfo}'|">수정완료</button>-->
+            </td>
+         </tr>
+      </table>
+   </form>
+</div>
+</div>
+</body>
+</html>

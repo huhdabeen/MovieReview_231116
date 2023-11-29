@@ -10,7 +10,7 @@
 	<select id="getFileInfo" parameterType="Integer" resultType="fileDto">
 		SELECT FILE_SEQ, ORIGIN_FILENAME, STORED_FILENAME
         FROM FILEINFO
-        WHERE FILE_SEQ=#{file_seq}
+        WHERE FILE_SEQ=#{memberId}
 	</select>
 </mapper>
 

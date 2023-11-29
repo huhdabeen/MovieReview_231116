@@ -83,29 +83,35 @@ public class MemberService {
 		return memberMapper.nameChk(name);
 	}
 	
-	//
-    public String login(LoginCommand loginCommand, HttpServletRequest request, Model model) {
+	
+	public String login(LoginCommand loginCommand, HttpServletRequest request, Model model) {
         MemberDto dto = memberMapper.loginUser(loginCommand.getId());
         String path = "home";
 
         if (dto != null) {
-            if (passwordEncoder.matches(loginCommand.getPassword(), dto.getPassword())) {
-                System.out.println("패스워드 같음: 회원이 맞음");
-
-                // 세션에 사용자 정보 저장
-                request.getSession().setAttribute("mdto", dto);
-
-                // 사용자가 등록한 프로필 이미지 정보 조회
-                if (dto.getFile_seq() != 0) {
-                    FileDto userImage = fileService.getFileInfo(dto.getFile_seq());
-                    model.addAttribute("userImage", userImage);
-                }
-
-                return path;
-            } else {
-                System.out.println("패스워드 틀림");
-                model.addAttribute("msg", "패스워드를 확인하세요.");
+            if ("Y".equals(dto.getDelflag())) {
+                System.out.println("탈퇴한 회원입니다.");
+                model.addAttribute("msg", "탈퇴한 회원입니다.");
                 path = "member/login";
+            } else {
+                if (passwordEncoder.matches(loginCommand.getPassword(), dto.getPassword())) {
+                    System.out.println("패스워드 같음: 회원이 맞음");
+
+                    // 세션에 사용자 정보 저장
+                    request.getSession().setAttribute("mdto", dto);
+                    System.out.println(dto);
+                    // 사용자가 등록한 프로필 이미지 정보 조회
+                    if (dto.getFile_seq() != 0) {
+                        FileDto userImage = fileService.getFileInfo(dto.getFile_seq());
+                        model.addAttribute("userImage", userImage);
+                    }
+
+                    return path;
+                } else {
+                    System.out.println("패스워드 틀림");
+                    model.addAttribute("msg", "패스워드를 확인하세요.");
+                    path = "member/login";
+                }
             }
         } else {
             System.out.println("회원이 아닙니다.");
@@ -115,49 +121,63 @@ public class MemberService {
 
         return path;
     }
-	//
-    
-//	public String login(LoginCommand loginCommand
-//						,HttpServletRequest request
-//						,Model model) {
-//		MemberDto dto=memberMapper.loginUser(loginCommand.getId());
-//		String path="home";
-//		if(dto!=null) {
-//			//로그인 폼에서 입력받은 패스워드값과 DB에 암호화된 패스워드 비교
-//			if(passwordEncoder.matches(loginCommand.getPassword(),dto.getPassword())) {
-//				System.out.println("패스워드 같음: 회원이 맞음");
-//				request.getSession().setAttribute("mdto", dto);
-//				return path;
-//			}else {
-//				System.out.println("패스워드 틀림");
-//				model.addAttribute("msg","패스워드를 확인하세요.");
-//				path="member/login";
-//			}
-//		}else {
-//			System.out.println("회원이 아닙니다.");
-//			model.addAttribute("msg","아이디를 확인하세요.");
-//			path="member/login";
-//		}
-//		return path;
-//	}
+
 
     //회원상세
-    public MemberDto getUser(int memberId) {
-    	return memberMapper.getUserInfo(memberId);
-    }
-    
-    //회원정보수정하기
-    public boolean updateUser(UpdateUserCommand updateUserCommand) {
-    	MemberDto dto=new MemberDto();
-    	//dto.setMemberId(updateUserCommand.getMemberId());
-    	dto.setName(updateUserCommand.getName());
-    	dto.setEmail(updateUserCommand.getEmail());   	
-    	return memberMapper.updateUser(dto);
-    }
-    
-	public boolean delUser(MemberDto dto) {
-		return memberMapper.delUser(dto);
+	public MemberDto getUserInfo(int memberId) {
+		return memberMapper.getUserInfo(memberId);
 	}
     
+    //회원정보수정하기
+	@Transactional
+	public boolean updateUser(UpdateUserCommand updateUserCommand) {
+	    MemberDto dto = new MemberDto();
+	    dto.setMemberId(updateUserCommand.getMemberId());
+	    dto.setName(updateUserCommand.getName());
+	    dto.setEmail(updateUserCommand.getEmail());
 
+	    try {
+	        // 실제로 회원 정보를 수정하는 쿼리 호출
+	        boolean updateResult = memberMapper.updateUser(dto);
+
+	        if (updateResult) {
+	            System.out.println("회원 정보가 성공적으로 업데이트되었습니다.");
+	            
+	        } else {
+	            System.out.println("회원 정보 업데이트에 실패했습니다.");
+	        }
+
+	        return updateResult;
+	    } catch (Exception e) {
+	        // 예외 발생 시 로그에 출력
+	        System.out.println("회원 정보 업데이트 중 예외 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	//회원탈퇴하기
+	@Transactional
+	public boolean delUser(int memberId) {
+        try {
+            // 회원 탈퇴를 위해 MemberMapper의 delUser 메서드 호출
+            memberMapper.delUser(memberId);
+
+            // 탈퇴한 회원의 파일 정보도 삭제 (예: 파일 정보는 삭제되지 않도록 주의)
+            // fileMapper.deleteFileBoardByMemberId(memberId);
+
+            return true;
+        } catch (Exception e) {
+            // 예외 발생 시 로그 출력
+            System.out.println("회원 탈퇴 중 예외 발생: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+
+	
+    
+	
+
+

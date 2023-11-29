@@ -6,13 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-// click(), change()...
-// on(), bind()...이벤트 핸들러 함수
 	$(function(){
-		//on("eventType",function(){})
 		$("input[name=id]").on("keyup",function(){
-			var id=$(this).val(); //id입력박스에 입력한 id값 가져오기 value->val()
-			//console.log(id);
+			var id=$(this).val();
 			$.ajax({
 				url:"/user/idChk",
 				method:"get",
@@ -20,16 +16,14 @@
 				async:false,
 				data:{"id":id},
 				success:function(data){
-					if(data.id!=null){ //사용할 수 없는 id
-						//console.log("사용못함");
+					if(data.id!=null){
 						$("#idChk").attr("class","n")
-								   .css("color","red")
-								   .text("사용할 수 없는 아이디입니다.");
-					}else{ //사용할 수 있는 id
-						//console.log("사용함");
+							.css("color","red")
+							.text("사용할 수 없는 아이디입니다.");
+					}else{
 						$("#idChk").attr("class","y")
-								   .css("color","red")
-								   .text("사용 가능한 아이디입니다.");
+							.css("color","red")
+							.text("사용 가능한 아이디입니다.");
 					}
 				},
 				error:function(e){
@@ -37,29 +31,24 @@
 				}
 			});
 		});
-	});
-	
-	$(function(){
-		//on("eventType",function(){})
+
 		$("input[name=name]").on("keyup",function(){
-			var id=$(this).val(); 
+			var name=$(this).val(); // 변수명을 name으로 변경
 			$.ajax({
 				url:"/user/nameChk",
 				method:"get",
 				dataType:"json",
 				async:false,
-				data:{"name":name},
+				data:{"name":name}, // 변수명을 name으로 변경
 				success:function(data){
-					if(data.name!=null){ //사용할 수 없는 id
-						//console.log("사용못함");
+					if(data.name!=null){
 						$("#nameChk").attr("class","n")
-								   .css("color","red")
-								   .text("사용할 수 없는 닉네임입니다.");
-					}else{ //사용할 수 있는 id
-						//console.log("사용함");
+							.css("color","red")
+							.text("사용할 수 없는 닉네임입니다.");
+					}else{
 						$("#nameChk").attr("class","y")
-								   .css("color","red")
-								   .text("사용 가능한 닉네임입니다.");
+							.css("color","red")
+							.text("사용 가능한 닉네임입니다.");
 					}
 				},
 				error:function(e){
@@ -68,8 +57,8 @@
 			});
 		});
 	});
-	
-	//중복된 아이디로 submit할 경우 처리
+
+	// 중복된 아이디로 submit할 경우 처리
 	function submitChk(){
 		var classValue=$("#idChk").attr("class");
 		if(classValue=="n"){
@@ -78,7 +67,7 @@
 		}
 		return true;
 	}
-	
+
 	function submitChk(){
 		var classValue=$("#nameChk").attr("class");
 		if(classValue=="n"){
