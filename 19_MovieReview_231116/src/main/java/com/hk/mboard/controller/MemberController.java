@@ -214,14 +214,28 @@ public class MemberController {
 	    }
 	}
 		
-//	 탈퇴
-//	@RequestMapping("/out")
-//	public String out(HttpSession session) {
-//		String id = (String) session.getAttribute("loginId");
-//		service.delMember(id);
-//		session.invalidate();
-//		//return "redirect:/member/logout";
-//		return "index";
-//	}
-	
+	// 회원 탈퇴 처리
+    @GetMapping(value = "/delUser")
+    public String deleteUser(HttpServletRequest request) {
+        // 세션에서 현재 로그인한 회원의 정보를 가져옴
+        MemberDto loggedInUser = (MemberDto) request.getSession().getAttribute("mdto");
+
+        if (loggedInUser != null) {
+            // 현재 로그인한 회원의 memberId를 가져와 회원 탈퇴 진행
+            boolean deleteResult = memberService.delUser(loggedInUser.getMemberId());
+
+            if (deleteResult) {
+                // 회원 탈퇴 성공 시 세션 무효화
+                request.getSession().invalidate();
+                return "redirect:/";
+            } else {
+                // 회원 탈퇴 실패 시 적절한 에러 페이지로 이동 또는 메시지 처리
+                return "redirect:/error";
+            }
+        } else {
+            // 로그인한 사용자 정보가 없는 경우의 예외 처리
+            return "redirect:/"; // 또는 적절한 경로로 이동
+        }
+    }
 }
+	

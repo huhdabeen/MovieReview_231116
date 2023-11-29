@@ -10,7 +10,7 @@ public class LoginCommand {
 	private String id;
 	
 	@NotBlank(message = "패스워드를 입력해주세요.")
-	@Length(min = 8,max = 16,message = "8자리 이상, 16자리이하로 입력하세요.")
+	@Length(min = 8,max = 16,message = "(8자리 이상, 16자리이하로 입력하세요.)")
 	private String password;
 
 	public LoginCommand() {

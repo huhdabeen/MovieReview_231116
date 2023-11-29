@@ -9,41 +9,38 @@
 
 </script>
 <style type="text/css">
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
-        * {
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-     
-         body {
-       
-            background-color:#F5F5F5;
-        }
+    * {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: none;
-        }
-        
-        #container{
-           width: 30%;
+    body {
+        background-color: #F5F5F5;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 5px;
+        border: none;
+    }
+
+	#container{
+           width: 500px;
            height: 500px;
            display: grid;
            justify-items: center;
            align-items: center;
            background-color: #F5F5F5;
            border-radius: 7px;
-           font-size:20px;
-        }
+           font-size:10px;
         
-       .form-control {
+     .form-control {
             margin-bottom: 20px;
         }
-
-       .button{
+        
+    .button {
         width: 100%;
         padding: 7px;
         border: none;
@@ -53,7 +50,14 @@
         background-color: #3a3a3a;
         cursor: pointer;
         outline: none;
-  }
+    }
+
+    /* 에러 메시지 스타일 추가 */
+    .error-message {
+        color: #dc3545; /* 에러 메시지 색상 (Bootstrap의 에러 색상) */
+        font-size: 14px; /* 에러 메시지 폰트 크기 */
+        display: inline-block; /* Added to make error messages appear beside the input fields */ 
+    }
 </style>
 </head>
 <body>
@@ -61,27 +65,31 @@
 <div id="container">
 <h1>LOGIN<h1>
 <form action="/user/login" method="post" th:object="${loginCommand}" id="login-form">
-      <tr>
-      	 <th style="font-size:25px">아이디:</th>
-         <td>
-            <input type="text" class="form-control" name="id" th:field="*{id}" />
-			<span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>        
-         </td>
-      </tr>
-      <tr>
-         <th style="font-size:25px">패스워드:</th>
-         <td>
-            <input type="password" class="form-control" name="password" th:field="*{password}" />
-			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>     
-         </td>
+     <tr>
+        <th>아이디:</th>
+        <td>
+            <input type="text" class="form-control" name="id" th:field="*{id}"  />
+            <span class="error-message" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+			</br>
+        </td>
+     </tr>
+     <!-- 패스워드 입력 -->
+     <tr>
+        <th>패스워드:</th>
+        <td>
+            <input type="password" id="password" class="form-control" name="password" th:field="*{password}" />
+            <span class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </td>
       </tr>
       <tr>
          <td colspan="2">
+         	  </br>
               <input type="submit" value="로그인" class="button"/>
               <span th:text="${msg}"></span> 
          </td>
       </tr>
       <tr>
+      	 </br>
          <a href="/user/addUser" style="font-size:25px">회원이 아니신가요?</a>
       </tr>
 </form>

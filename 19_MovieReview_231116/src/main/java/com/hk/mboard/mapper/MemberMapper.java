@@ -20,5 +20,5 @@ public interface MemberMapper {
 	//회원정보수정
 	public boolean updateUser(MemberDto dto);
 	//회원탈퇴
-	public boolean delUser(MemberDto dto);
+	public boolean delUser(int memberId);
 }
