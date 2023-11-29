@@ -173,7 +173,7 @@ public class MemberController {
 	}
 
 	//내정보조회
-	@GetMapping(value = "/UserDetail")
+	@GetMapping(value = "/edit")
 	public String updateUserForm(int memberId, Model model) {
 //		System.out.println("회원정보 수정폼");
 		MemberDto dto=memberService.getUser(memberId);
