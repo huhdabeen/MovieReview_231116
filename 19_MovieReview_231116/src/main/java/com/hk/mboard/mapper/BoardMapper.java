@@ -25,4 +25,3 @@ public interface BoardMapper {
 	public List<MovieInfoDto> movieAllList(String movie_nm);
 }
 
-

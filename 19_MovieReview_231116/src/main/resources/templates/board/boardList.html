@@ -3,87 +3,79 @@
      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
      layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript">
-   function allSel(bool){
-      var chks=document.getElementsByName("seq");// [seq,seq,seq,seq..]
-      for (var i = 0; i < chks.length; i++) {
-         chks[i].checked=bool;//각각의 체크박스에 체크여부를 true/false로 적용
-      }
-   }
-  
-   
-   function isCheck(){
-      if(confirm("정말 삭제 하시겠습니까?")){
-         return true;
-      }
-      return false;
-   }
-</script>
-<style type="text/css">
-.table{
-	font-size:15px;
-}
-#contianer{
-	font-size:15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>새글 작성</title>
+    <script type="text/javascript">
+        $(function () {
+            $("#autoComplete").on("keyup", function () {
+                var movie_nm = $(this).val();
+                $.ajax({
+                    url: "/board/movieList",
+                    method: "get",
+                    dataType: "json",
+                    data: {"movie_nm": movie_nm},
+                    success: function (val) {
+                        var mlist = val["mlist"];
+                        var mlistOptions = "";
+                        for (var i = 0; i < mlist.length; i++) {
+                            mlistOptions += "<option value='" + mlist[i].movie_nm + "'>";
+                        }
+                        $("#movie_options").html(mlistOptions);
+                    },
+                    error: function () {
+                        alert("영화이름 찾기 실패");
+                    }
+                });
+            });
+        });
+    </script>
+    <style type="text/css">
+        /* 추가적인 스타일이 필요하다면 여기에 작성하세요. */
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
-<div id="container">
-<h1 stlye="font-size:15px">게시판 목록</h1>
-<!--<div>스포&nbsp;<input type="checkbox" name="spo" onclick="spoSel(this.checked)" /></div>-->
-<form action="/board/mulDel" method="post" th:object="${delBoardCommand}">
-   <table class="table">
-    	
-      		<button style = "margin-left:900px; margin-bottom:10px;" type="button" class="btn" th:onclick="|location.href='@{/board/boardInsert}'|" >글추가</button>
-      	
-      <tr >
-	
-         <th><input type="checkbox" name="all" onclick="allSel(this.checked)" /></th>
-         <th>장르</th>
-         <th>영화제목</th>
-         <th>제목</th>
-         <th>닉네임</th>
-         <th>작성일</th>
-      </tr>
-      <th:block th:if="${#lists.isEmpty(list)}">
-         <tr>
-            <td colspan="6" style="text-align: center;" >---작성된 글이 없습니다.---</td>
-         </tr>
-      </th:block>
-      <th:block th:unless="${#lists.isEmpty(list)}">
-         <tr th:each="dto:${list}">
-            <td><input type="checkbox" name="seq" th:field="*{seq}"
-                                 th:value="${dto.board_seq}"/></td>
-            <td th:text="${dto.genre_nm}"></td>
-            <td th:text="${dto.movie_nm}"></td>
-            
-            <td>
-               <a th:href="@{/board/boardDetail(board_seq=${dto.board_seq})}"
-                  th:text="${dto.title}"></a>
-            </td>
-            <td th:text="${dto.name}"></td>
-            <td th:text="${#dates.format(dto.regdate,'yyyy-MM-dd')}"></td>
-         </tr>
-         <tr>
-            <td colspan="6">
-               
-               <button type="submit" class="btn">삭제</button>
-               <span th:if="${#fields.hasErrors('seq')}"
-                     th:errors="*{seq}"></span>
-            </td>
-         </tr>
-      </th:block>
-   </table>
-</form>
-</div>
+    <div id="container">
+        <h1>새글 작성하기</h1>
+        <form action="/board/boardInsert" method="post" enctype="multipart/form-data" th:object="${insertBoardCommand}">
+            <input type="hidden" name="id" th:value="${session.mdto.id}"/>
+            <table class="table">
+                <tr>
+                    <th>작성자[NAME]</th>
+                    <td th:text="${session.mdto.name}"></td>
+                </tr>
+                <tr>
+                    <th>영화제목</th>
+                    <td>
+                        <input type="text" name="movie_nm" id="autoComplete" list="movie_options" class="form-control"/>
+                        <datalist id="movie_options">
+                            <!-- datalist 내부는 비어있어야 합니다. -->
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <input type="text" name="title" th:field="*{title}" class="form-control"/>
+                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td>
+                        <textarea rows="10" cols="60" name="content" th:field="*{content}" class="form-control"></textarea>
+                        <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" class="btn">등록</button>
+                        <button type="button" class="btn" th:onclick="|location.href='@{/board/boardList}'|">목록</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
 </body>
 </html>
-
-
-
-
